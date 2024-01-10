@@ -377,11 +377,11 @@
             }
         },
         "pre_install": {
-            "description": "A one-line string, or array of strings, of the commands to be executed before an application is installed.\nAvailable functions:\nappdir: Reference another scoop application\ne.g. to check if another application is installed you can use: \"if (Test-Path \"$(appdir otherapp)\\current\\otherapp.exe\") { ... }\"\nAvailable variables:\n$app: Name of application (name of manifest file)\n$architecture: The CPU architecture of the app being installed,like: 64bit/32bit/arm64\n$cmd: The subcommand that's currently being run,like: uninstall/update/install\n$cfg: Scoop configuration (powershell object),like: {SCOOP_BRANCH, SCOOP_REPO}\n$global: $true for global install\n$manifest: Deserialized manifest (powershell object),like: @{homepage=https://xxx.com/; description=xxx;...}\n$version: Version being installed,like: 1.2.3\n$dir: Application installation directory (version number directory)\n$persist_dir: Scoop Directory --- persist\n$bucketsdir: Scoop Directory --- buckets,like: C:\\Users\\username\\scoop\buckets\n$cachedir: Scoop Directory --- cache\n$cfgpath: Path to Scoop configuration\n$globaldir: Global installation directory\n$modulesdir: Scoop Directory --- modules\n$original_dir: Application installation directory (version number directory)\n$scoopdir: Path to Scoop\n$oldscoopdir: Old path to Scoop",
+            "description": "A one-line string, or array of strings, of the commands to be executed before an application is installed.\nAvailable functions:\nappdir: Reference another scoop application\ne.g. to check if another application is installed you can use: \"if (Test-Path \"$(appdir otherapp)\\current\\otherapp.exe\") { ... }\"\nAvailable variables:\n$app: Name of application (name of manifest file)\n$architecture: The CPU architecture of the app being installed,like: 64bit/32bit/arm64\n$cmd: The subcommand that's currently being run,like: uninstall/update/install\n$cfg: Scoop configuration (powershell object),like: {SCOOP_BRANCH, SCOOP_REPO}\n$global: $true for global install\n$manifest: Deserialized manifest (powershell object),like: @{homepage=https://xxx.com/; description=xxx;...}\n$version: Version being installed,like: 1.2.3\n$dir: Application installation directory (version number directory)\n$persist_dir: Scoop Directory --- persist\n$bucketsdir: Scoop Directory --- buckets,like: C:\\Users\\username\\scoop\\buckets\n$bucket: The bucket name to which the current installed application belongs\n$cachedir: Scoop Directory --- cache\n$cfgpath: Path to Scoop configuration\n$globaldir: Global installation directory\n$modulesdir: Scoop Directory --- modules\n$original_dir: Application installation directory (version number directory)\n$scoopdir: Path to Scoop\n$oldscoopdir: Old path to Scoop",
             "$ref": "#/$defs/arr_str"
         },
         "post_install": {
-            "description": "A one-line string, or array of strings, of the commands to be executed after an application is installed.\nAvailable functions:\nappdir: Reference another scoop application\ne.g. to check if another application is installed you can use: \"if (Test-Path \"$(appdir otherapp)\\current\\otherapp.exe\") { ... }\"\nAvailable variables:\n$app: Name of application (name of manifest file)\n$architecture: The CPU architecture of the app being installed,like: 64bit/32bit/arm64\n$cmd: The subcommand that's currently being run,like: uninstall/update/install\n$cfg: Scoop configuration (powershell object),like: {SCOOP_BRANCH, SCOOP_REPO}\n$global: $true for global install\n$manifest: Deserialized manifest (powershell object),like: @{homepage=https://xxx.com/; description=xxx;...}\n$version: Version being installed,like: 1.2.3\n$dir: Application installation directory (version number directory)\n$persist_dir: Scoop Directory --- persist\n$bucketsdir: Scoop Directory --- buckets,like: C:\\Users\\username\\scoop\buckets\n$cachedir: Scoop Directory --- cache\n$cfgpath: Path to Scoop configuration\n$globaldir: Global installation directory\n$modulesdir: Scoop Directory --- modules\n$original_dir: Application installation directory (version number directory)\n$scoopdir: Path to Scoop\n$oldscoopdir: Old path to Scoop",
+            "description": "A one-line string, or array of strings, of the commands to be executed after an application is installed.\nAvailable functions:\nappdir: Reference another scoop application\ne.g. to check if another application is installed you can use: \"if (Test-Path \"$(appdir otherapp)\\current\\otherapp.exe\") { ... }\"\nAvailable variables:\n$app: Name of application (name of manifest file)\n$architecture: The CPU architecture of the app being installed,like: 64bit/32bit/arm64\n$cmd: The subcommand that's currently being run,like: uninstall/update/install\n$cfg: Scoop configuration (powershell object),like: {SCOOP_BRANCH, SCOOP_REPO}\n$global: $true for global install\n$manifest: Deserialized manifest (powershell object),like: @{homepage=https://xxx.com/; description=xxx;...}\n$version: Version being installed,like: 1.2.3\n$dir: Application installation directory (version number directory)\n$persist_dir: Scoop Directory --- persist\n$bucketsdir: Scoop Directory --- buckets,like: C:\\Users\\username\\scoop\\buckets\n$bucket: The bucket name to which the current installed application belongs\n$cachedir: Scoop Directory --- cache\n$cfgpath: Path to Scoop configuration\n$globaldir: Global installation directory\n$modulesdir: Scoop Directory --- modules\n$original_dir: Application installation directory (version number directory)\n$scoopdir: Path to Scoop\n$oldscoopdir: Old path to Scoop",
             "$ref": "#/$defs/arr_str"
         },
         "extract_dir": {
@@ -548,7 +548,7 @@
             "properties": {
                 "64bit": {
                     "title": "Type: object",
-                    "description": "64bit\nObject Available attributes: url,hash",
+                    "description": "64bit\nObject Available attributes: url,hash,bin,extract_dir,installer,uninstaller,pre_install,post_install,shortcuts,checkver",
                     "required": [
                         "url",
                         "hash"
@@ -557,7 +557,7 @@
                 },
                 "32bit": {
                     "title": "Type: object",
-                    "description": "32bit\nObject Available attributes: url,hash",
+                    "description": "32bit\nObject Available attributes: url,hash,bin,extract_dir,installer,uninstaller,pre_install,post_install,shortcuts,checkver",
                     "required": [
                         "url",
                         "hash"
@@ -566,7 +566,7 @@
                 },
                 "arm64": {
                     "title": "Type: object",
-                    "description": "arm64\nObject Available attributes: url,hash",
+                    "description": "arm64\nObject Available attributes: url,hash,bin,extract_dir,installer,uninstaller,pre_install,post_install,shortcuts,checkver",
                     "required": [
                         "url",
                         "hash"
@@ -613,11 +613,11 @@
             "$ref": "#/$defs/persist"
         },
         "pre_uninstall": {
-            "description": "A one-line string, or array of strings, of the commands to be executed before an application is uninstalled.\nAvailable functions:\nappdir: Reference another scoop application\ne.g. to check if another application is installed you can use: \"if (Test-Path \"$(appdir otherapp)\\current\\otherapp.exe\") { ... }\"\nAvailable variables:\n$app:Name of application (name of manifest file)\n$architecture:The CPU architecture of the app being installed,like: 64bit/32bit/arm64\n$cmd:The subcommand that's currently being run,like: uninstall/update/install\n$cfg:Scoop configuration (powershell object),like: {SCOOP_BRANCH, SCOOP_REPO}\n$global:$true for global uninstall\n$manifest:Deserialized manifest (powershell object),like: @{homepage=https://xxx.com/; description=xxx;...}\n$version: Version being installed,like: 1.2.3\n$dir:Application installation directory (version number directory)\n$persist_dir: Scoop Directory --- persist\n$bucketsdir: Scoop Directory --- buckets,like: C:\\Users\\username\\scoop\buckets\n$cachedir: Scoop Directory --- cache\n$cfgpath: Path to Scoop configuration\n$globaldir: Global installation directory\n$modulesdir: Scoop Directory --- modules\n$original_dir: Application installation directory (version number directory)\n$scoopdir: Path to Scoop\n$oldscoopdir: Old path to Scoop",
+            "description": "A one-line string, or array of strings, of the commands to be executed before an application is uninstalled.\nAvailable functions:\nappdir: Reference another scoop application\ne.g. to check if another application is installed you can use: \"if (Test-Path \"$(appdir otherapp)\\current\\otherapp.exe\") { ... }\"\nAvailable variables:\n$app:Name of application (name of manifest file)\n$architecture:The CPU architecture of the app being installed,like: 64bit/32bit/arm64\n$cmd:The subcommand that's currently being run,like: uninstall/update/install\n$cfg:Scoop configuration (powershell object),like: {SCOOP_BRANCH, SCOOP_REPO}\n$global:$true for global uninstall\n$manifest:Deserialized manifest (powershell object),like: @{homepage=https://xxx.com/; description=xxx;...}\n$version: Version being installed,like: 1.2.3\n$dir:Application installation directory (version number directory)\n$persist_dir: Scoop Directory --- persist\n$bucketsdir: Scoop Directory --- buckets,like: C:\\Users\\username\\scoop\\buckets\n$bucket: The bucket name to which the current installed application belongs\n$cachedir: Scoop Directory --- cache\n$cfgpath: Path to Scoop configuration\n$globaldir: Global installation directory\n$modulesdir: Scoop Directory --- modules\n$original_dir: Application installation directory (version number directory)\n$scoopdir: Path to Scoop\n$oldscoopdir: Old path to Scoop",
             "$ref": "#/$defs/arr_str"
         },
         "post_uninstall": {
-            "description": "A one-line string, or array of strings, of the commands to be executed after an application is uninstalled.\nAvailable functions:\nappdir: Reference another scoop application\ne.g. to check if another application is installed you can use: \"if (Test-Path \"$(appdir otherapp)\\current\\otherapp.exe\") { ... }\"\nAvailable variables:\n$app:Name of application (name of manifest file)\n$architecture:The CPU architecture of the app being installed,like: 64bit/32bit/arm64\n$cmd:The subcommand that's currently being run,like: uninstall/update/install\n$cfg:Scoop configuration (powershell object),like: {SCOOP_BRANCH, SCOOP_REPO}\n$global:$true for global uninstalls\n$manifest:Deserialized manifest (powershell object),like: @{homepage=https://xxx.com/; description=xxx;...}\n$version: Version being installed,like: 1.2.3\n$dir:Application installation directory (version number directory)\n$persist_dir: Scoop Directory --- persist\n$bucketsdir: Scoop Directory --- buckets,like: C:\\Users\\username\\scoop\buckets\n$cachedir: Scoop Directory --- cache\n$cfgpath: Path to Scoop configuration\n$globaldir: Global installation directory\n$modulesdir: Scoop Directory --- modules\n$original_dir: Application installation directory (version number directory)\n$scoopdir: Path to Scoop\n$oldscoopdir: Old path to Scoop",
+            "description": "A one-line string, or array of strings, of the commands to be executed after an application is uninstalled.\nAvailable functions:\nappdir: Reference another scoop application\ne.g. to check if another application is installed you can use: \"if (Test-Path \"$(appdir otherapp)\\current\\otherapp.exe\") { ... }\"\nAvailable variables:\n$app:Name of application (name of manifest file)\n$architecture:The CPU architecture of the app being installed,like: 64bit/32bit/arm64\n$cmd:The subcommand that's currently being run,like: uninstall/update/install\n$cfg:Scoop configuration (powershell object),like: {SCOOP_BRANCH, SCOOP_REPO}\n$global:$true for global uninstalls\n$manifest:Deserialized manifest (powershell object),like: @{homepage=https://xxx.com/; description=xxx;...}\n$version: Version being installed,like: 1.2.3\n$dir:Application installation directory (version number directory)\n$persist_dir: Scoop Directory --- persist\n$bucketsdir: Scoop Directory --- buckets,like: C:\\Users\\username\\scoop\\buckets\n$bucket: The bucket name to which the current installed application belongs\n$cachedir: Scoop Directory --- cache\n$cfgpath: Path to Scoop configuration\n$globaldir: Global installation directory\n$modulesdir: Scoop Directory --- modules\n$original_dir: Application installation directory (version number directory)\n$scoopdir: Path to Scoop\n$oldscoopdir: Old path to Scoop",
             "$ref": "#/$defs/arr_str"
         },
         "depends": {
@@ -766,7 +766,7 @@
                     "properties": {
                         "64bit": {
                             "title": "Type: object",
-                            "description": "64bit\nObject Available attributes: url,hash",
+                            "description": "64bit\nObject Available attributes: url,hash,bin,extract_dir,installer,uninstaller,pre_install,post_install,shortcuts",
                             "required": [
                                 "url"
                             ],
@@ -774,7 +774,7 @@
                         },
                         "32bit": {
                             "title": "Type: object",
-                            "description": "32bit\nObject Available attributes: url,hash",
+                            "description": "32bit\nObject Available attributes: url,hash,bin,extract_dir,installer,uninstaller,pre_install,post_install,shortcuts",
                             "required": [
                                 "url"
                             ],
@@ -782,7 +782,7 @@
                         },
                         "arm64": {
                             "title": "Type: object",
-                            "description": "arm64\nObject Available attributes: url,hash",
+                            "description": "arm64\nObject Available attributes: url,hash,bin,extract_dir,installer,uninstaller,pre_install,post_install,shortcuts",
                             "required": [
                                 "url"
                             ],

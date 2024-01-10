@@ -378,11 +378,11 @@
             }
         },
         "pre_install": {
-            "description": "一行字符串或字符串数组，用于在安装应用程序之前执行命令\n可以使用的函数:\nappdir: 参考另一个独家应用程序。\n例如，要检查是否安装了另一个应用程序，可以使用 \"if (Test-Path \"$(appdir otherapp)\\current\\otherapp.exe\") { ... }\"\n可以使用的变量：\n$app: 应用程序名称(应用清单名称)\n$architecture: 所安装应用程序的 CPU 架构，如 64bit/32bit/arm64\n$cmd: 当前正在运行的子命令，如 uninstall/update/install\n$cfg: Scoop 配置(PowerShell 对象)，如 {SCOOP_BRANCH, SCOOP_REPO}\n$global: 如果值为$true，则全局安装\n$manifest: 反序列化清单(PowerShell 对象)，如 @{homepage=https://xxx.com/; description=xxx;...}\n$version: 正在安装的版本，如 1.2.3\n$dir: 应用程序安装目录(实际版本号目录)\n$persist_dir: 数据持久化目录\n$bucketsdir: Scoop buckets 目录，如 C:\\Users\\username\\scoop\buckets\n$cachedir: Scoop cache 目录\n$cfgpath: Scoop 配置的路径\n$globaldir: 全局安装目录\n$modulesdir: Scoop modules 目录\n$original_dir: 应用程序安装目录(实际版本号目录)\n$scoopdir: Scoop 所在目录\n$oldscoopdir: 旧的 Scoop 目录",
+            "description": "一行字符串或字符串数组，用于在安装应用程序之前执行命令\n可以使用的函数:\nappdir: 参考另一个独家应用程序。\n例如，要检查是否安装了另一个应用程序，可以使用 \"if (Test-Path \"$(appdir otherapp)\\current\\otherapp.exe\") { ... }\"\n可以使用的变量：\n$app: 应用程序名称(应用清单名称)\n$architecture: 所安装应用程序的 CPU 架构，如 64bit/32bit/arm64\n$cmd: 当前正在运行的子命令，如 uninstall/update/install\n$cfg: Scoop 配置(PowerShell 对象)，如 {SCOOP_BRANCH, SCOOP_REPO}\n$global: 如果值为$true，则全局安装\n$manifest: 反序列化清单(PowerShell 对象)，如 @{homepage=https://xxx.com/; description=xxx;...}\n$version: 正在安装的版本，如 1.2.3\n$dir: 应用程序安装目录(实际版本号目录)\n$persist_dir: 数据持久化目录\n$bucketsdir: Scoop buckets 目录，如 C:\\Users\\username\\scoop\\buckets\n$bucket: 当前安装应用所属于的 bucket 名称\n$cachedir: Scoop cache 目录\n$cfgpath: Scoop 配置的路径\n$globaldir: 全局安装目录\n$modulesdir: Scoop modules 目录\n$original_dir: 应用程序安装目录(实际版本号目录)\n$scoopdir: Scoop 所在目录\n$oldscoopdir: 旧的 Scoop 目录",
             "$ref": "#/$defs/arr_str"
         },
         "post_install": {
-            "description": "一行字符串或字符串数组，用于在安装应用程序之后执行命令\n可以使用的函数:\nappdir: 参考另一个独家应用程序。\n例如，要检查是否安装了另一个应用程序，可以使用 \"if (Test-Path \"$(appdir otherapp)\\current\\otherapp.exe\") { ... }\"\n可以使用的变量：\n$app: 应用程序名称(应用清单名称)\n$architecture: 所安装应用程序的 CPU 架构，如 64bit/32bit/arm64\n$cmd: 当前正在运行的子命令，如 uninstall/update/install\n$cfg: Scoop 配置(PowerShell 对象)，如 {SCOOP_BRANCH, SCOOP_REPO}\n$global: 如果值为$true，则全局安装\n$manifest: 反序列化清单(PowerShell 对象)，如 @{homepage=https://xxx.com/; description=xxx;...}\n$version: 正在安装的版本，如 1.2.3\n$dir: 应用程序安装目录(current 目录)\n$persist_dir: 数据持久化目录\n$bucketsdir: Scoop buckets 目录，如 C:\\Users\\username\\scoop\buckets\n$cachedir: Scoop cache 目录\n$cfgpath: Scoop 配置的路径\n$globaldir: 全局安装目录\n$modulesdir: Scoop modules 目录\n$original_dir: 应用程序安装目录(实际版本号目录)\n$scoopdir: Scoop 所在目录\n$oldscoopdir: 旧的 Scoop 目录",
+            "description": "一行字符串或字符串数组，用于在安装应用程序之后执行命令\n可以使用的函数:\nappdir: 参考另一个独家应用程序。\n例如，要检查是否安装了另一个应用程序，可以使用 \"if (Test-Path \"$(appdir otherapp)\\current\\otherapp.exe\") { ... }\"\n可以使用的变量：\n$app: 应用程序名称(应用清单名称)\n$architecture: 所安装应用程序的 CPU 架构，如 64bit/32bit/arm64\n$cmd: 当前正在运行的子命令，如 uninstall/update/install\n$cfg: Scoop 配置(PowerShell 对象)，如 {SCOOP_BRANCH, SCOOP_REPO}\n$global: 如果值为$true，则全局安装\n$manifest: 反序列化清单(PowerShell 对象)，如 @{homepage=https://xxx.com/; description=xxx;...}\n$version: 正在安装的版本，如 1.2.3\n$dir: 应用程序安装目录(current 目录)\n$persist_dir: 数据持久化目录\n$bucketsdir: Scoop buckets 目录，如 C:\\Users\\username\\scoop\\buckets\n$bucket: 当前安装应用所属于的 bucket 名称\n$cachedir: Scoop cache 目录\n$cfgpath: Scoop 配置的路径\n$globaldir: 全局安装目录\n$modulesdir: Scoop modules 目录\n$original_dir: 应用程序安装目录(实际版本号目录)\n$scoopdir: Scoop 所在目录\n$oldscoopdir: 旧的 Scoop 目录",
             "$ref": "#/$defs/arr_str"
         },
         "extract_dir": {
@@ -549,7 +549,7 @@
             "properties": {
                 "64bit": {
                     "title": "类型: 对象",
-                    "description": "64位架构\n对象可用属性: url,hash",
+                    "description": "64位架构\n对象可用属性: url,hash,bin,extract_dir,installer,uninstaller,pre_install,post_install,shortcuts,checkver",
                     "required": [
                         "url",
                         "hash"
@@ -558,7 +558,7 @@
                 },
                 "32bit": {
                     "title": "类型: 对象",
-                    "description": "32位架构\n对象可用属性: url,hash",
+                    "description": "32位架构\n对象可用属性: url,hash,bin,extract_dir,installer,uninstaller,pre_install,post_install,shortcuts,checkver",
                     "required": [
                         "url",
                         "hash"
@@ -567,7 +567,7 @@
                 },
                 "arm64": {
                     "title": "类型: 对象",
-                    "description": "arm64架构\n对象可用属性: url,hash",
+                    "description": "arm64架构\n对象可用属性: url,hash,bin,extract_dir,installer,uninstaller,pre_install,post_install,shortcuts,checkver",
                     "required": [
                         "url",
                         "hash"
@@ -614,11 +614,11 @@
             "$ref": "#/$defs/persist"
         },
         "pre_uninstall": {
-            "description": "一行字符串或字符串数组，用于在卸载应用程序之前执行命令\n可以使用的函数:\nappdir: 参考另一个独家应用程序。\n例如，要检查是否安装了另一个应用程序，可以使用 \"if (Test-Path \"$(appdir otherapp)\\current\\otherapp.exe\") { ... }\"\n可以使用的变量：\n$app: 应用程序名称(应用清单名称)\n$architecture: 所安装应用程序的 CPU 架构，如 64bit/32bit/arm64\n$cmd: 当前正在运行的子命令，如 uninstall/update/install\n$cfg: Scoop 配置(PowerShell 对象)，如 {SCOOP_BRANCH, SCOOP_REPO}\n$global: 如果值为$true，则全局卸载\n$manifest: 反序列化清单(PowerShell 对象)，如 @{homepage=https://xxx.com/; description=xxx;...}\n$version: 正在安装的版本，如 1.2.3\n$dir: 应用程序安装目录(实际版本号目录)\n$persist_dir: 数据持久化目录\n$bucketsdir: Scoop buckets 目录，如 C:\\Users\\username\\scoop\buckets\n$cachedir: Scoop cache 目录\n$cfgpath: Scoop 配置的路径\n$globaldir: 全局安装目录\n$modulesdir: Scoop modules 目录\n$original_dir: 应用程序安装目录(实际版本号目录)\n$scoopdir: Scoop 所在目录\n$oldscoopdir: 旧的 Scoop 目录",
+            "description": "一行字符串或字符串数组，用于在卸载应用程序之前执行命令\n可以使用的函数:\nappdir: 参考另一个独家应用程序。\n例如，要检查是否安装了另一个应用程序，可以使用 \"if (Test-Path \"$(appdir otherapp)\\current\\otherapp.exe\") { ... }\"\n可以使用的变量：\n$app: 应用程序名称(应用清单名称)\n$architecture: 所安装应用程序的 CPU 架构，如 64bit/32bit/arm64\n$cmd: 当前正在运行的子命令，如 uninstall/update/install\n$cfg: Scoop 配置(PowerShell 对象)，如 {SCOOP_BRANCH, SCOOP_REPO}\n$global: 如果值为$true，则全局卸载\n$manifest: 反序列化清单(PowerShell 对象)，如 @{homepage=https://xxx.com/; description=xxx;...}\n$version: 正在安装的版本，如 1.2.3\n$dir: 应用程序安装目录(实际版本号目录)\n$persist_dir: 数据持久化目录\n$bucketsdir: Scoop buckets 目录，如 C:\\Users\\username\\scoop\\buckets\n$bucket: 当前安装应用所属于的 bucket 名称\n$cachedir: Scoop cache 目录\n$cfgpath: Scoop 配置的路径\n$globaldir: 全局安装目录\n$modulesdir: Scoop modules 目录\n$original_dir: 应用程序安装目录(实际版本号目录)\n$scoopdir: Scoop 所在目录\n$oldscoopdir: 旧的 Scoop 目录",
             "$ref": "#/$defs/arr_str"
         },
         "post_uninstall": {
-            "description": "一行字符串或字符串数组，用于在卸载应用程序之后执行命令\n可以使用的函数:\nappdir: 参考另一个独家应用程序。\n例如，要检查是否安装了另一个应用程序，可以使用 \"if (Test-Path \"$(appdir otherapp)\\current\\otherapp.exe\") { ... }\"\n可以使用的变量：\n$app: 应用程序名称(应用清单名称)\n$architecture: 所安装应用程序的 CPU 架构，如 64bit/32bit/arm64\n$cmd: 当前正在运行的子命令，如 uninstall/update/install\n$cfg: Scoop 配置(PowerShell 对象)，如 {SCOOP_BRANCH, SCOOP_REPO}\n$global: 如果值为$true，则全局卸载\n$manifest: 反序列化清单(PowerShell 对象)，如 @{homepage=https://xxx.com/; description=xxx;...}\n$version: 正在安装的版本，如 1.2.3\n$dir: 应用程序安装目录(实际版本号目录)\n$persist_dir: 数据持久化目录\n$bucketsdir: Scoop buckets 目录，如 C:\\Users\\username\\scoop\buckets\n$cachedir: Scoop cache 目录\n$cfgpath: Scoop 配置的路径\n$globaldir: 全局安装目录\n$modulesdir: Scoop modules 目录\n$original_dir: 应用程序安装目录(实际版本号目录)\n$scoopdir: Scoop 所在目录\n$oldscoopdir: 旧的 Scoop 目录",
+            "description": "一行字符串或字符串数组，用于在卸载应用程序之后执行命令\n可以使用的函数:\nappdir: 参考另一个独家应用程序。\n例如，要检查是否安装了另一个应用程序，可以使用 \"if (Test-Path \"$(appdir otherapp)\\current\\otherapp.exe\") { ... }\"\n可以使用的变量：\n$app: 应用程序名称(应用清单名称)\n$architecture: 所安装应用程序的 CPU 架构，如 64bit/32bit/arm64\n$cmd: 当前正在运行的子命令，如 uninstall/update/install\n$cfg: Scoop 配置(PowerShell 对象)，如 {SCOOP_BRANCH, SCOOP_REPO}\n$global: 如果值为$true，则全局卸载\n$manifest: 反序列化清单(PowerShell 对象)，如 @{homepage=https://xxx.com/; description=xxx;...}\n$version: 正在安装的版本，如 1.2.3\n$dir: 应用程序安装目录(实际版本号目录)\n$persist_dir: 数据持久化目录\n$bucketsdir: Scoop buckets 目录，如 C:\\Users\\username\\scoop\\buckets\n$bucket: 当前安装应用所属于的 bucket 名称\n$cachedir: Scoop cache 目录\n$cfgpath: Scoop 配置的路径\n$globaldir: 全局安装目录\n$modulesdir: Scoop modules 目录\n$original_dir: 应用程序安装目录(实际版本号目录)\n$scoopdir: Scoop 所在目录\n$oldscoopdir: 旧的 Scoop 目录",
             "$ref": "#/$defs/arr_str"
         },
         "depends": {
@@ -767,7 +767,7 @@
                     "properties": {
                         "64bit": {
                             "title": "类型: 对象",
-                            "description": "64位架构\n对象可用属性: url,hash",
+                            "description": "64位架构\n对象可用属性: url,hash,bin,extract_dir,installer,uninstaller,pre_install,post_install,shortcuts",
                             "required": [
                                 "url"
                             ],
@@ -775,7 +775,7 @@
                         },
                         "32bit": {
                             "title": "类型: 对象",
-                            "description": "32位架构\n对象可用属性: url,hash",
+                            "description": "32位架构\n对象可用属性: url,hash,bin,extract_dir,installer,uninstaller,pre_install,post_install,shortcuts",
                             "required": [
                                 "url"
                             ],
@@ -783,7 +783,7 @@
                         },
                         "arm64": {
                             "title": "类型: 对象",
-                            "description": "arm64架构\n对象可用属性: url,hash",
+                            "description": "arm64架构\n对象可用属性: url,hash,bin,extract_dir,installer,uninstaller,pre_install,post_install,shortcuts",
                             "required": [
                                 "url"
                             ],
