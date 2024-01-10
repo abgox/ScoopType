@@ -17,6 +17,7 @@
     "$defs": {
         "bool": {
             "type": "boolean",
+            "title": "Type: boolean",
             "examples": [
                 true,
                 false
@@ -24,11 +25,13 @@
         },
         "str": {
             "type": "string",
+            "title": "Type: string",
             "examples": [
                 ""
             ]
         },
         "arr_str": {
+            "title": "Type: string or array",
             "examples": [
                 "",
                 []
@@ -48,6 +51,7 @@
         },
         "license_examples": {
             "type": "string",
+            "title": "Type: string or object(Available attributes:identifier,url)",
             "examples": [
                 "",
                 "MIT",
@@ -146,8 +150,10 @@
             "$ref": "#/$defs/arr_str"
         },
         "bin": {
-            "description": "A string or array of strings of programs (executables or scripts) to make available on the user's path.\nIf it is an array,You can also create an alias shim which uses a different name to the real executable and (optionally) passes arguments to the executable.\nThe array should contain up to three strings: program name, alias, and parameters(optional).",
+            "title": "Type: string or array(one-dimensional or two-dimensional)",
+            "description": "A string or array of strings of programs (executables or scripts) to make available on the user's path.\nA two-dimensional array can be used to create an alias shim, which uses a different name to the real executable and (optionally) passes arguments to the executable.\nThe two-dimensional array should contain up to three strings: program name, alias, and parameters(optional).",
             "examples": [
+                "",
                 "program.exe",
                 [
                     "program1.exe",
@@ -186,12 +192,12 @@
                             {
                                 "type": "array",
                                 "items": {
-                                    "type": "string"
+                                    "$ref": "#/$defs/str"
                                 },
                                 "maxItems": 3
                             },
                             {
-                                "type": "string"
+                                "$ref": "#/$defs/str"
                             }
                         ]
                     }
@@ -199,7 +205,7 @@
                 {
                     "type": "array",
                     "items": {
-                        "type": "string"
+                        "$ref": "#/$defs/str"
                     }
                 },
                 {
@@ -208,9 +214,9 @@
             ]
         },
         "checkver": {
-            "description": "App maintainers and developers can use the bin/checkver tool to check for updated versions of apps\nrequires a string or object \nString: Find the version of RegEx on the homepage\nObject: more configuration",
+            "title": "Type: string or object",
+            "description": "App maintainers and developers can use the bin/checkver tool to check for updated versions of apps\nrequires a string or object \nString: Find the version of RegEx on the homepage\nObject: more configuration\nObject Available attributes: url,github,re/regex,jp/jsonpath,xpath,reverse,replace,useragent,script",
             "examples": [
-                "",
                 "github",
                 {
                     "url": "",
@@ -273,7 +279,8 @@
             ]
         },
         "installer": {
-            "description": "Instructions for running a non-MSI installer.\nCalled during both \"scoop install\" and \"scoop update\".",
+            "title": "Type: object",
+            "description": "Instructions for running a non-MSI installer.\nCalled during both \"scoop install\" and \"scoop update\".\nObject Available attributes: file,script,args,keep",
             "examples": [
                 {
                     "file": ""
@@ -312,7 +319,7 @@
                     "type": "array",
                     "description": "An array of arguments to pass to the installer. Optional.",
                     "items": {
-                        "type": "string"
+                        "$ref": "#/$defs/str"
                     },
                     "minItems": 1
                 },
@@ -323,7 +330,8 @@
             }
         },
         "uninstaller": {
-            "description": "Instructions for running a non-MSI uninstaller.\nCalled during both \"scoop uninstall\" and \"scoop update\".",
+            "title": "Type: object",
+            "description": "Instructions for running a non-MSI uninstaller.\nCalled during both \"scoop uninstall\" and \"scoop update\".\nObject Available attributes: file,script,args",
             "examples": [
                 {
                     "file": ""
@@ -369,11 +377,11 @@
             }
         },
         "pre_install": {
-            "description": "A one-line string, or array of strings, of the commands to be executed before an application is installed.\nAvailable functions:\nappdir: Reference another scoop application\ne.g. to check if another application is installed you can use: \"if (Test-Path \"$(appdir otherapp)\\current\\otherapp.exe\") { ... }\"\nAvailable variables:\n$app:Name of application (name of manifest file)\n$architecture:The CPU architecture of the app being installed,like: 64bit/32bit/arm64\n$cmd:The subcommand that's currently being run,like: uninstall/update/install\n$cfg:Scoop configuration (powershell object),like: {SCOOP_BRANCH, SCOOP_REPO}\n$global:$true for global install\n$manifest:Deserialized manifest (powershell object),like: @{homepage=https://xxx.com/; description=xxx;...}\n$version: Version being installed,like: 1.2.3\n$dir:Application installation directory (version number directory)\n$persist_dir: Scoop Directory --- persist\n$bucketsdir: Scoop Directory --- buckets,like: C:\\Users\\username\\scoop\buckets\n$cachedir: Scoop Directory --- cache\n$cfgpath: Path to Scoop configuration\n$globaldir: Global installation directory\n$modulesdir: Scoop Directory --- modules\n$original_dir: Application installation directory (version number directory)\n$scoopdir: Path to Scoop\n$oldscoopdir: Old path to Scoop",
+            "description": "A one-line string, or array of strings, of the commands to be executed before an application is installed.\nAvailable functions:\nappdir: Reference another scoop application\ne.g. to check if another application is installed you can use: \"if (Test-Path \"$(appdir otherapp)\\current\\otherapp.exe\") { ... }\"\nAvailable variables:\n$app: Name of application (name of manifest file)\n$architecture: The CPU architecture of the app being installed,like: 64bit/32bit/arm64\n$cmd: The subcommand that's currently being run,like: uninstall/update/install\n$cfg: Scoop configuration (powershell object),like: {SCOOP_BRANCH, SCOOP_REPO}\n$global: $true for global install\n$manifest: Deserialized manifest (powershell object),like: @{homepage=https://xxx.com/; description=xxx;...}\n$version: Version being installed,like: 1.2.3\n$dir: Application installation directory (version number directory)\n$persist_dir: Scoop Directory --- persist\n$bucketsdir: Scoop Directory --- buckets,like: C:\\Users\\username\\scoop\buckets\n$cachedir: Scoop Directory --- cache\n$cfgpath: Path to Scoop configuration\n$globaldir: Global installation directory\n$modulesdir: Scoop Directory --- modules\n$original_dir: Application installation directory (version number directory)\n$scoopdir: Path to Scoop\n$oldscoopdir: Old path to Scoop",
             "$ref": "#/$defs/arr_str"
         },
         "post_install": {
-            "description": "A one-line string, or array of strings, of the commands to be executed after an application is installed.\nAvailable functions:\nappdir: Reference another scoop application\ne.g. to check if another application is installed you can use: \"if (Test-Path \"$(appdir otherapp)\\current\\otherapp.exe\") { ... }\"\nAvailable variables:\n$app:Name of application (name of manifest file)\n$architecture:The CPU architecture of the app being installed,like: 64bit/32bit/arm64\n$cmd:The subcommand that's currently being run,like: uninstall/update/install\n$cfg:Scoop configuration (powershell object),like: {SCOOP_BRANCH, SCOOP_REPO}\n$global:$true for global install\n$manifest:Deserialized manifest (powershell object),like: @{homepage=https://xxx.com/; description=xxx;...}\n$version: Version being installed,like: 1.2.3\n$dir:Application installation directory (version number directory)\n$persist_dir: Scoop Directory --- persist\n$bucketsdir: Scoop Directory --- buckets,like: C:\\Users\\username\\scoop\buckets\n$cachedir: Scoop Directory --- cache\n$cfgpath: Path to Scoop configuration\n$globaldir: Global installation directory\n$modulesdir: Scoop Directory --- modules\n$original_dir: Application installation directory (version number directory)\n$scoopdir: Path to Scoop\n$oldscoopdir: Old path to Scoop",
+            "description": "A one-line string, or array of strings, of the commands to be executed after an application is installed.\nAvailable functions:\nappdir: Reference another scoop application\ne.g. to check if another application is installed you can use: \"if (Test-Path \"$(appdir otherapp)\\current\\otherapp.exe\") { ... }\"\nAvailable variables:\n$app: Name of application (name of manifest file)\n$architecture: The CPU architecture of the app being installed,like: 64bit/32bit/arm64\n$cmd: The subcommand that's currently being run,like: uninstall/update/install\n$cfg: Scoop configuration (powershell object),like: {SCOOP_BRANCH, SCOOP_REPO}\n$global: $true for global install\n$manifest: Deserialized manifest (powershell object),like: @{homepage=https://xxx.com/; description=xxx;...}\n$version: Version being installed,like: 1.2.3\n$dir: Application installation directory (version number directory)\n$persist_dir: Scoop Directory --- persist\n$bucketsdir: Scoop Directory --- buckets,like: C:\\Users\\username\\scoop\buckets\n$cachedir: Scoop Directory --- cache\n$cfgpath: Path to Scoop configuration\n$globaldir: Global installation directory\n$modulesdir: Scoop Directory --- modules\n$original_dir: Application installation directory (version number directory)\n$scoopdir: Path to Scoop\n$oldscoopdir: Old path to Scoop",
             "$ref": "#/$defs/arr_str"
         },
         "extract_dir": {
@@ -386,7 +394,8 @@
         },
         "shortcuts": {
             "type": "array",
-            "description": "Specifies the shortcut values to make available in the startmenu.\nThe array contains four values:\n1.Path to target file [required]\n2.Name of the shortcut(supports subdirectories: <AppsSubDir>\\<AppShortcut>) [required]\n3.Start parameters [optional]\n4.Path to icon file [optional]",
+            "title": "Type: array(two-dimensional)",
+            "description": "Specifies the shortcut values to make available in the startmenu.\nThe two-dimensional array contains four values:\n1.Path to target file [required]\n2.Name of the shortcut(supports subdirectories: <AppsSubDir>\\<AppShortcut>) [required]\n3.Start parameters [optional]\n4.Path to icon file [optional]",
             "examples": [
                 [
                     [
@@ -416,7 +425,10 @@
             "items": {
                 "type": "array",
                 "items": {
-                    "type": "string"
+                    "type": "string",
+                    "examples": [
+                        ""
+                    ]
                 },
                 "minItems": 2,
                 "maxItems": 4
@@ -437,7 +449,10 @@
             ],
             "patternProperties": {
                 "": {
-                    "$ref": "#/$defs/str"
+                    "type": "string",
+                    "examples": [
+                        ""
+                    ]
                 }
             },
             "minProperties": 1
@@ -451,6 +466,7 @@
             "required": [
                 "name"
             ],
+            "title": "Type: object",
             "description": "Install as a PowerShell module in ~/scoop/modules",
             "properties": {
                 "name": {
@@ -491,7 +507,8 @@
         },
         "architecture": {
             "type": "object",
-            "description": "The architecture of the program.\nIf the app is not 32bit, architecture can be used to wrap the differences",
+            "title": "Type: object",
+            "description": "The architecture of the program.\nIf the app is not 32bit, architecture can be used to wrap the differences\nObject Available attributes: 64bit,32bit,arm64",
             "examples": [
                 {
                     "url": "",
@@ -530,7 +547,8 @@
             ],
             "properties": {
                 "64bit": {
-                    "description": "64bit",
+                    "title": "Type: object",
+                    "description": "64bit\nObject Available attributes: url,hash",
                     "required": [
                         "url",
                         "hash"
@@ -538,7 +556,8 @@
                     "$ref": "#/$defs/architecture"
                 },
                 "32bit": {
-                    "description": "32bit",
+                    "title": "Type: object",
+                    "description": "32bit\nObject Available attributes: url,hash",
                     "required": [
                         "url",
                         "hash"
@@ -546,7 +565,8 @@
                     "$ref": "#/$defs/architecture"
                 },
                 "arm64": {
-                    "description": "arm64",
+                    "title": "Type: object",
+                    "description": "arm64\nObject Available attributes: url,hash",
                     "required": [
                         "url",
                         "hash"
@@ -630,7 +650,8 @@
             }
         },
         "autoupdate": {
-            "description": "Definition of how the manifest can be updated automatically.",
+            "title": "Type: object",
+            "description": "Definition of how the manifest can be updated automatically.\nObject Available attributes: note,architecture,url,hash,bin,extract_dir,extract_to,env_add_path,env_set,installer,license,persist,post_install,psmodule,shortcuts",
             "examples": [
                 {
                     "note": "",
@@ -698,94 +719,14 @@
             ],
             "type": "object",
             "properties": {
-                "bin": {
-                    "$ref": "#/$defs/bin"
-                },
-                "extract_dir": {
-                    "$ref": "#/$defs/extract_dir"
-                },
-                "extract_to": {
-                    "$ref": "#/$defs/extract_to"
-                },
-                "env_add_path": {
-                    "$ref": "#/$defs/env_add_path"
-                },
-                "env_set": {
-                    "$ref": "#/$defs/env_set"
-                },
-                "installer": {
-                    "$ref": "#/$defs/installer"
-                },
-                "license": {
-                    "$ref": "#/$defs/license"
-                },
                 "note": {
                     "description": "A one-line string, or array of strings, with a message to be displayed after autoupdating the app.",
                     "$ref": "#/$defs/str"
                 },
-                "persist": {
-                    "$ref": "#/$defs/persist"
-                },
-                "post_install": {
-                    "$ref": "#/$defs/post_install"
-                },
-                "psmodule": {
-                    "$ref": "#/$defs/psmodule"
-                },
-                "shortcuts": {
-                    "$ref": "#/$defs/shortcuts"
-                },
-                "url": {
-                    "$ref": "#/$defs/url"
-                },
-                "hash": {
-                    "description": "An object that defines how hashes are obtained.\nRequired Properties: url\nOptional Properties: regex/find,mode,jp/jsonpath,xpath",
-                    "type": "object",
-                    "properties": {
-                        "url": {
-                            "type": "string",
-                            "description": "URL template for downloading RDF/JSON files or extracting hashes"
-                        },
-                        "regex": {
-                            "type": "string",
-                            "description": "Alias: find\nRegEx expression to extract the hash"
-                        },
-                        "find": {
-                            "type": "string",
-                            "description": "Alias: regex\nRegEx expression to extract the hash"
-                        },
-                        "mode": {
-                            "examples": [
-                                "",
-                                "extract",
-                                "json",
-                                "xpath",
-                                "rdf",
-                                "metalink",
-                                "fosshub",
-                                "sourceforge",
-                                "download"
-                            ],
-                            "type": "string",
-                            "description": "extract: Extract from a plain text file or webpage by RegEx (Default, can be omitted)\njson: Extract from a JSON file by JSONPath\nxpath: Extract from a XML file by XPath\nrdf: Extract from a RDF file\nmetalink: Extract from Metalink's header or .meta4 file\nfosshub: Automatic. Predefined for FossHub\nsourceforge: Automatic. Predefined for SourceForge\ndownload: Downloads the app file and hash it locally (Fallback)"
-                        },
-                        "jp": {
-                            "type": "string",
-                            "description": "Alias: jsonpath\nJSONPath expression to extract the hash"
-                        },
-                        "jsonpath": {
-                            "type": "string",
-                            "description": "Alias: jp\nJSONPath expression to extract the hash"
-                        },
-                        "xpath": {
-                            "type": "string",
-                            "description": "XPath expression to extract the hash"
-                        }
-                    }
-                },
                 "architecture": {
                     "type": "object",
-                    "description": "The architecture of the program.\nIf the app is not 32bit, architecture can be used to wrap the differences",
+                    "title": "Type: object",
+                    "description": "The architecture of the program.\nIf the app is not 32bit, architecture can be used to wrap the differences\nObject Available attributes: 64bit,32bit,arm64",
                     "examples": [
                         {
                             "url": "",
@@ -824,27 +765,120 @@
                     ],
                     "properties": {
                         "64bit": {
-                            "description": "64bit",
+                            "title": "Type: object",
+                            "description": "64bit\nObject Available attributes: url,hash",
                             "required": [
                                 "url"
                             ],
                             "$ref": "#/$defs/architecture"
                         },
                         "32bit": {
-                            "description": "32bit",
+                            "title": "Type: object",
+                            "description": "32bit\nObject Available attributes: url,hash",
                             "required": [
                                 "url"
                             ],
                             "$ref": "#/$defs/architecture"
                         },
                         "arm64": {
-                            "description": "arm64",
+                            "title": "Type: object",
+                            "description": "arm64\nObject Available attributes: url,hash",
                             "required": [
                                 "url"
                             ],
                             "$ref": "#/$defs/architecture"
                         }
                     }
+                },
+                "url": {
+                    "$ref": "#/$defs/url"
+                },
+                "hash": {
+                    "title": "Type: object",
+                    "description": "An object that defines how hashes are obtained.\nObject Available attributes: url,regex/find,mode,jp/jsonpath,xpath",
+                    "required": [
+                        "url"
+                    ],
+                    "type": "object",
+                    "properties": {
+                        "url": {
+                            "type": "string",
+                            "description": "URL template for downloading RDF/JSON files or extracting hashes"
+                        },
+                        "regex": {
+                            "type": "string",
+                            "description": "Alias: find\nRegEx expression to extract the hash"
+                        },
+                        "find": {
+                            "type": "string",
+                            "description": "Alias: regex\nRegEx expression to extract the hash"
+                        },
+                        "mode": {
+                            "description": "extract: Extract from a plain text file or webpage by RegEx (Default, can be omitted)\njson: Extract from a JSON file by JSONPath\nxpath: Extract from a XML file by XPath\nrdf: Extract from a RDF file\nmetalink: Extract from Metalink's header or .meta4 file\nfosshub: Automatic. Predefined for FossHub\nsourceforge: Automatic. Predefined for SourceForge\ndownload: Downloads the app file and hash it locally (Fallback)",
+                            "allOf": [
+                                {
+                                    "examples": [
+                                        "extract",
+                                        "json",
+                                        "xpath",
+                                        "rdf",
+                                        "metalink",
+                                        "fosshub",
+                                        "sourceforge",
+                                        "download"
+                                    ]
+                                },
+                                {
+                                    "$ref": "#/$defs/str"
+                                }
+                            ]
+                        },
+                        "jp": {
+                            "type": "string",
+                            "description": "Alias: jsonpath\nJSONPath expression to extract the hash"
+                        },
+                        "jsonpath": {
+                            "type": "string",
+                            "description": "Alias: jp\nJSONPath expression to extract the hash"
+                        },
+                        "xpath": {
+                            "type": "string",
+                            "description": "XPath expression to extract the hash"
+                        }
+                    }
+                },
+                "bin": {
+                    "$ref": "#/$defs/bin"
+                },
+                "extract_dir": {
+                    "$ref": "#/$defs/extract_dir"
+                },
+                "extract_to": {
+                    "$ref": "#/$defs/extract_to"
+                },
+                "env_add_path": {
+                    "$ref": "#/$defs/env_add_path"
+                },
+                "env_set": {
+                    "$ref": "#/$defs/env_set"
+                },
+                "installer": {
+                    "$ref": "#/$defs/installer"
+                },
+                "license": {
+                    "$ref": "#/$defs/license"
+                },
+                "persist": {
+                    "$ref": "#/$defs/persist"
+                },
+                "post_install": {
+                    "$ref": "#/$defs/post_install"
+                },
+                "psmodule": {
+                    "$ref": "#/$defs/psmodule"
+                },
+                "shortcuts": {
+                    "$ref": "#/$defs/shortcuts"
                 }
             }
         }

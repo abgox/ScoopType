@@ -17,6 +17,7 @@
     "$defs": {
         "bool": {
             "type": "boolean",
+            "title": "类型: 布尔值",
             "examples": [
                 true,
                 false
@@ -24,11 +25,13 @@
         },
         "str": {
             "type": "string",
+            "title": "类型: 字符串",
             "examples": [
                 ""
             ]
         },
         "arr_str": {
+            "title": "类型: 字符串或数组",
             "examples": [
                 "",
                 []
@@ -61,6 +64,7 @@
             ]
         },
         "license": {
+            "title": "类型: 字符串或对象(可用属性: identifier,url)",
             "description": "程序的软件许可证的字符串或散列。\n对于知名许可证，请使用此页面中的标识符 https://spdx.org/licenses\n对于其他许可证，请尽量使用对象形式，包含 identifier、url 属性。\n如果可用，请将许可证的 URL 填入 url 属性。\n否则，请酌情使用\"Freeware\"、\"Proprietary\"、\"Public Domain\"、\"Shareware\"或\"Unknown\"。\n如果不同的文件具有不同的许可证，请用逗号(,)分隔许可证。\n如果整个应用程序是双重许可的，则使用管道符号(|)分隔许可。",
             "oneOf": [
                 {
@@ -146,8 +150,10 @@
             "$ref": "#/$defs/arr_str"
         },
         "bin": {
-            "description": "一个程序(可执行文件或脚本)的字符串或字符串数组，可在用户路径上使用。\n如果是一个数组，可以创建一个别名 shim，它使用与真实的可执行文件不同的名称，并(可选地)将参数传递给可执行文件。\n数组应该包含最多三个字符串：程序名,别名,参数(可选)",
+            "title": "类型: 字符串或数组(一维或二维)",
+            "description": "一个程序(可执行文件或脚本)的字符串或字符串数组，可在用户路径上使用。\n可以通过一个二维数组来创建一个别名 shim，它使用与真实的可执行文件不同的名称，并(可选地)将参数传递给可执行文件。\n二维数组应该包含最多三个字符串：程序名,别名,参数(可选)",
             "examples": [
+                "",
                 "program.exe",
                 [
                     "program1.exe",
@@ -186,12 +192,12 @@
                             {
                                 "type": "array",
                                 "items": {
-                                    "type": "string"
+                                    "$ref": "#/$defs/str"
                                 },
                                 "maxItems": 3
                             },
                             {
-                                "type": "string"
+                                "$ref": "#/$defs/str"
                             }
                         ]
                     }
@@ -199,7 +205,7 @@
                 {
                     "type": "array",
                     "items": {
-                        "type": "string"
+                        "$ref": "#/$defs/str"
                     }
                 },
                 {
@@ -208,7 +214,8 @@
             ]
         },
         "checkver": {
-            "description": "应用维护者和开发者可以使用 bin/checkver 工具来检查应用的更新版本。\n需要一个字符串或对象\n字符串：在主页上查找版本的 RegEx\n对象：更丰富的配置",
+            "title": "类型: 字符串或对象",
+            "description": "应用维护者和开发者可以使用 bin/checkver 工具来检查应用的更新版本。\n字符串：在主页上查找版本的 RegEx\n对象：更丰富的配置\n对象可用属性: url,github,re/regex,jp/jsonpath,xpath,reverse,replace,useragent,script",
             "examples": [
                 "",
                 "github",
@@ -273,7 +280,8 @@
             ]
         },
         "installer": {
-            "description": "运行非 MSI 安装程序的说明。\n在 scoop install 和 scoop update 期间调用。",
+            "title": "类型: 对象",
+            "description": "运行非 MSI 安装程序的说明。\n在 scoop install 和 scoop update 期间调用。\n可用属性: file,script,args,keep",
             "examples": [
                 {
                     "file": ""
@@ -312,7 +320,7 @@
                     "type": "array",
                     "description": "传递给安装程序的参数数组。可选的.",
                     "items": {
-                        "type": "string"
+                        "$ref": "#/$defs/str"
                     },
                     "minItems": 1
                 },
@@ -323,7 +331,8 @@
             }
         },
         "uninstaller": {
-            "description": "运行非 MSI 卸载程序的说明。\n在 scoop uninstall 和 scoop update 期间调用。",
+            "title": "类型: 对象",
+            "description": "运行非 MSI 卸载程序的说明。\n在 scoop uninstall 和 scoop update 期间调用。\n可用属性: file,script,args",
             "examples": [
                 {
                     "file": ""
@@ -362,18 +371,18 @@
                     "type": "array",
                     "description": "传递给卸载程序的参数数组。可选的",
                     "items": {
-                        "type": "string"
+                        "$ref": "#/$defs/str"
                     },
                     "minItems": 1
                 }
             }
         },
         "pre_install": {
-            "description": "一行字符串或字符串数组，用于在安装应用程序之前执行命令\n可以使用的函数:\nappdir: 参考另一个独家应用程序。\n例如，要检查是否安装了另一个应用程序，可以使用 \"if (Test-Path \"$(appdir otherapp)\\current\\otherapp.exe\") { ... }\"\n可以使用的变量：\n$app:应用程序名称(应用清单名称)\n$architecture:所安装应用程序的 CPU 架构，如 64bit/32bit/arm64\n$cmd:当前正在运行的子命令，如 uninstall/update/install\n$cfg:Scoop 配置(PowerShell 对象)，如 {SCOOP_BRANCH, SCOOP_REPO}\n$global:如果值为$true，则全局安装\n$manifest:反序列化清单(PowerShell 对象)，如 @{homepage=https://xxx.com/; description=xxx;...}\n$version: 正在安装的版本，如 1.2.3\n$dir:应用程序安装目录(实际版本号目录)\n$persist_dir: 数据持久化目录\n$bucketsdir: Scoop buckets 目录，如 C:\\Users\\username\\scoop\buckets\n$cachedir: Scoop cache 目录\n$cfgpath: Scoop 配置的路径\n$globaldir: 全局安装目录\n$modulesdir: Scoop modules 目录\n$original_dir: 应用程序安装目录(实际版本号目录)\n$scoopdir: Scoop 所在目录\n$oldscoopdir: 旧的 Scoop 目录",
+            "description": "一行字符串或字符串数组，用于在安装应用程序之前执行命令\n可以使用的函数:\nappdir: 参考另一个独家应用程序。\n例如，要检查是否安装了另一个应用程序，可以使用 \"if (Test-Path \"$(appdir otherapp)\\current\\otherapp.exe\") { ... }\"\n可以使用的变量：\n$app: 应用程序名称(应用清单名称)\n$architecture: 所安装应用程序的 CPU 架构，如 64bit/32bit/arm64\n$cmd: 当前正在运行的子命令，如 uninstall/update/install\n$cfg: Scoop 配置(PowerShell 对象)，如 {SCOOP_BRANCH, SCOOP_REPO}\n$global: 如果值为$true，则全局安装\n$manifest: 反序列化清单(PowerShell 对象)，如 @{homepage=https://xxx.com/; description=xxx;...}\n$version: 正在安装的版本，如 1.2.3\n$dir: 应用程序安装目录(实际版本号目录)\n$persist_dir: 数据持久化目录\n$bucketsdir: Scoop buckets 目录，如 C:\\Users\\username\\scoop\buckets\n$cachedir: Scoop cache 目录\n$cfgpath: Scoop 配置的路径\n$globaldir: 全局安装目录\n$modulesdir: Scoop modules 目录\n$original_dir: 应用程序安装目录(实际版本号目录)\n$scoopdir: Scoop 所在目录\n$oldscoopdir: 旧的 Scoop 目录",
             "$ref": "#/$defs/arr_str"
         },
         "post_install": {
-            "description": "一行字符串或字符串数组，用于在安装应用程序之后执行命令\n可以使用的函数:\nappdir: 参考另一个独家应用程序。\n例如，要检查是否安装了另一个应用程序，可以使用 \"if (Test-Path \"$(appdir otherapp)\\current\\otherapp.exe\") { ... }\"\n可以使用的变量：\n$app:应用程序名称(应用清单名称)\n$architecture:所安装应用程序的 CPU 架构，如 64bit/32bit/arm64\n$cmd:当前正在运行的子命令，如 uninstall/update/install\n$cfg:Scoop 配置(PowerShell 对象)，如 {SCOOP_BRANCH, SCOOP_REPO}\n$global:如果值为$true，则全局安装\n$manifest:反序列化清单(PowerShell 对象)，如 @{homepage=https://xxx.com/; description=xxx;...}\n$version: 正在安装的版本，如 1.2.3\n$dir:应用程序安装目录(current 目录)\n$persist_dir: 数据持久化目录\n$bucketsdir: Scoop buckets 目录，如 C:\\Users\\username\\scoop\buckets\n$cachedir: Scoop cache 目录\n$cfgpath: Scoop 配置的路径\n$globaldir: 全局安装目录\n$modulesdir: Scoop modules 目录\n$original_dir: 应用程序安装目录(实际版本号目录)\n$scoopdir: Scoop 所在目录\n$oldscoopdir: 旧的 Scoop 目录",
+            "description": "一行字符串或字符串数组，用于在安装应用程序之后执行命令\n可以使用的函数:\nappdir: 参考另一个独家应用程序。\n例如，要检查是否安装了另一个应用程序，可以使用 \"if (Test-Path \"$(appdir otherapp)\\current\\otherapp.exe\") { ... }\"\n可以使用的变量：\n$app: 应用程序名称(应用清单名称)\n$architecture: 所安装应用程序的 CPU 架构，如 64bit/32bit/arm64\n$cmd: 当前正在运行的子命令，如 uninstall/update/install\n$cfg: Scoop 配置(PowerShell 对象)，如 {SCOOP_BRANCH, SCOOP_REPO}\n$global: 如果值为$true，则全局安装\n$manifest: 反序列化清单(PowerShell 对象)，如 @{homepage=https://xxx.com/; description=xxx;...}\n$version: 正在安装的版本，如 1.2.3\n$dir: 应用程序安装目录(current 目录)\n$persist_dir: 数据持久化目录\n$bucketsdir: Scoop buckets 目录，如 C:\\Users\\username\\scoop\buckets\n$cachedir: Scoop cache 目录\n$cfgpath: Scoop 配置的路径\n$globaldir: 全局安装目录\n$modulesdir: Scoop modules 目录\n$original_dir: 应用程序安装目录(实际版本号目录)\n$scoopdir: Scoop 所在目录\n$oldscoopdir: 旧的 Scoop 目录",
             "$ref": "#/$defs/arr_str"
         },
         "extract_dir": {
@@ -386,7 +395,8 @@
         },
         "shortcuts": {
             "type": "array",
-            "description": "指定要在开始菜单中可用的快捷方式值。\n数组中包含四个值：\n1.目标文件的路径(必需值)\n2.快捷方式的名称(支持子目录:<AppsSubDir>\\<AppShortcut>，必需值)\n3.启动参数(可选值)\n4.图标文件的路径(可选值)",
+            "title": "类型: 二维数组",
+            "description": "指定要在开始菜单中可用的快捷方式值。\n二维数组中包含四个值：\n1.目标文件的路径(必需值)\n2.快捷方式的名称(支持子目录:<AppsSubDir>\\<AppShortcut>，必需值)\n3.启动参数(可选值)\n4.图标文件的路径(可选值)",
             "examples": [
                 [
                     [
@@ -416,7 +426,10 @@
             "items": {
                 "type": "array",
                 "items": {
-                    "type": "string"
+                    "type": "string",
+                    "examples": [
+                        ""
+                    ]
                 },
                 "minItems": 2,
                 "maxItems": 4
@@ -437,7 +450,10 @@
             ],
             "patternProperties": {
                 "": {
-                    "$ref": "#/$defs/str"
+                    "type": "string",
+                    "examples": [
+                        ""
+                    ]
                 }
             },
             "minProperties": 1
@@ -451,6 +467,7 @@
             "required": [
                 "name"
             ],
+            "title": "类型: 对象",
             "description": "在 ~/scoop/modules 中作为PowerShell模块安装。",
             "properties": {
                 "name": {
@@ -491,7 +508,8 @@
         },
         "architecture": {
             "type": "object",
-            "description": "程序的体系结构。\n如果应用程序不是32位的，架构可以用来包装差异",
+            "title": "类型: 对象",
+            "description": "程序的体系结构。\n如果应用程序不是32位的，架构可以用来包装差异\n对象可用属性: 64bit,32bit,arm64",
             "examples": [
                 {
                     "url": "",
@@ -530,7 +548,8 @@
             ],
             "properties": {
                 "64bit": {
-                    "description": "64位",
+                    "title": "类型: 对象",
+                    "description": "64位架构\n对象可用属性: url,hash",
                     "required": [
                         "url",
                         "hash"
@@ -538,7 +557,8 @@
                     "$ref": "#/$defs/architecture"
                 },
                 "32bit": {
-                    "description": "32位",
+                    "title": "类型: 对象",
+                    "description": "32位架构\n对象可用属性: url,hash",
                     "required": [
                         "url",
                         "hash"
@@ -546,7 +566,8 @@
                     "$ref": "#/$defs/architecture"
                 },
                 "arm64": {
-                    "description": "arm64",
+                    "title": "类型: 对象",
+                    "description": "arm64架构\n对象可用属性: url,hash",
                     "required": [
                         "url",
                         "hash"
@@ -593,11 +614,11 @@
             "$ref": "#/$defs/persist"
         },
         "pre_uninstall": {
-            "description": "一行字符串或字符串数组，用于在卸载应用程序之前执行命令\n可以使用的函数:\nappdir: 参考另一个独家应用程序。\n例如，要检查是否安装了另一个应用程序，可以使用 \"if (Test-Path \"$(appdir otherapp)\\current\\otherapp.exe\") { ... }\"\n可以使用的变量：\n$app:应用程序名称(应用清单名称)\n$architecture:所安装应用程序的 CPU 架构，如 64bit/32bit/arm64\n$cmd:当前正在运行的子命令，如 uninstall/update/install\n$cfg:Scoop 配置(PowerShell 对象)，如 {SCOOP_BRANCH, SCOOP_REPO}\n$global:如果值为$true，则全局卸载\n$manifest:反序列化清单(PowerShell 对象)，如 @{homepage=https://xxx.com/; description=xxx;...}\n$version: 正在安装的版本，如 1.2.3\n$dir:应用程序安装目录(实际版本号目录)\n$persist_dir: 数据持久化目录\n$bucketsdir: Scoop buckets 目录，如 C:\\Users\\username\\scoop\buckets\n$cachedir: Scoop cache 目录\n$cfgpath: Scoop 配置的路径\n$globaldir: 全局安装目录\n$modulesdir: Scoop modules 目录\n$original_dir: 应用程序安装目录(实际版本号目录)\n$scoopdir: Scoop 所在目录\n$oldscoopdir: 旧的 Scoop 目录",
+            "description": "一行字符串或字符串数组，用于在卸载应用程序之前执行命令\n可以使用的函数:\nappdir: 参考另一个独家应用程序。\n例如，要检查是否安装了另一个应用程序，可以使用 \"if (Test-Path \"$(appdir otherapp)\\current\\otherapp.exe\") { ... }\"\n可以使用的变量：\n$app: 应用程序名称(应用清单名称)\n$architecture: 所安装应用程序的 CPU 架构，如 64bit/32bit/arm64\n$cmd: 当前正在运行的子命令，如 uninstall/update/install\n$cfg: Scoop 配置(PowerShell 对象)，如 {SCOOP_BRANCH, SCOOP_REPO}\n$global: 如果值为$true，则全局卸载\n$manifest: 反序列化清单(PowerShell 对象)，如 @{homepage=https://xxx.com/; description=xxx;...}\n$version: 正在安装的版本，如 1.2.3\n$dir: 应用程序安装目录(实际版本号目录)\n$persist_dir: 数据持久化目录\n$bucketsdir: Scoop buckets 目录，如 C:\\Users\\username\\scoop\buckets\n$cachedir: Scoop cache 目录\n$cfgpath: Scoop 配置的路径\n$globaldir: 全局安装目录\n$modulesdir: Scoop modules 目录\n$original_dir: 应用程序安装目录(实际版本号目录)\n$scoopdir: Scoop 所在目录\n$oldscoopdir: 旧的 Scoop 目录",
             "$ref": "#/$defs/arr_str"
         },
         "post_uninstall": {
-            "description": "一行字符串或字符串数组，用于在卸载应用程序之后执行命令\n可以使用的函数:\nappdir: 参考另一个独家应用程序。\n例如，要检查是否安装了另一个应用程序，可以使用 \"if (Test-Path \"$(appdir otherapp)\\current\\otherapp.exe\") { ... }\"\n可以使用的变量：\n$app:应用程序名称(应用清单名称)\n$architecture:所安装应用程序的 CPU 架构，如 64bit/32bit/arm64\n$cmd:当前正在运行的子命令，如 uninstall/update/install\n$cfg:Scoop 配置(PowerShell 对象)，如 {SCOOP_BRANCH, SCOOP_REPO}\n$global:如果值为$true，则全局卸载\n$manifest:反序列化清单(PowerShell 对象)，如 @{homepage=https://xxx.com/; description=xxx;...}\n$version: 正在安装的版本，如 1.2.3\n$dir:应用程序安装目录(实际版本号目录)\n$persist_dir: 数据持久化目录\n$bucketsdir: Scoop buckets 目录，如 C:\\Users\\username\\scoop\buckets\n$cachedir: Scoop cache 目录\n$cfgpath: Scoop 配置的路径\n$globaldir: 全局安装目录\n$modulesdir: Scoop modules 目录\n$original_dir: 应用程序安装目录(实际版本号目录)\n$scoopdir: Scoop 所在目录\n$oldscoopdir: 旧的 Scoop 目录",
+            "description": "一行字符串或字符串数组，用于在卸载应用程序之后执行命令\n可以使用的函数:\nappdir: 参考另一个独家应用程序。\n例如，要检查是否安装了另一个应用程序，可以使用 \"if (Test-Path \"$(appdir otherapp)\\current\\otherapp.exe\") { ... }\"\n可以使用的变量：\n$app: 应用程序名称(应用清单名称)\n$architecture: 所安装应用程序的 CPU 架构，如 64bit/32bit/arm64\n$cmd: 当前正在运行的子命令，如 uninstall/update/install\n$cfg: Scoop 配置(PowerShell 对象)，如 {SCOOP_BRANCH, SCOOP_REPO}\n$global: 如果值为$true，则全局卸载\n$manifest: 反序列化清单(PowerShell 对象)，如 @{homepage=https://xxx.com/; description=xxx;...}\n$version: 正在安装的版本，如 1.2.3\n$dir: 应用程序安装目录(实际版本号目录)\n$persist_dir: 数据持久化目录\n$bucketsdir: Scoop buckets 目录，如 C:\\Users\\username\\scoop\buckets\n$cachedir: Scoop cache 目录\n$cfgpath: Scoop 配置的路径\n$globaldir: 全局安装目录\n$modulesdir: Scoop modules 目录\n$original_dir: 应用程序安装目录(实际版本号目录)\n$scoopdir: Scoop 所在目录\n$oldscoopdir: 旧的 Scoop 目录",
             "$ref": "#/$defs/arr_str"
         },
         "depends": {
@@ -630,7 +651,8 @@
             }
         },
         "autoupdate": {
-            "description": "定义如何自动更新清单。",
+            "title": "类型: 对象",
+            "description": "定义如何自动更新清单。\n对象可用属性: note,architecture,url,hash,bin,extract_dir,extract_to,env_add_path,env_set,installer,license,persist,post_install,psmodule,shortcuts",
             "examples": [
                 {
                     "note": "",
@@ -698,94 +720,14 @@
             ],
             "type": "object",
             "properties": {
-                "bin": {
-                    "$ref": "#/$defs/bin"
-                },
-                "extract_dir": {
-                    "$ref": "#/$defs/extract_dir"
-                },
-                "extract_to": {
-                    "$ref": "#/$defs/extract_to"
-                },
-                "env_add_path": {
-                    "$ref": "#/$defs/env_add_path"
-                },
-                "env_set": {
-                    "$ref": "#/$defs/env_set"
-                },
-                "installer": {
-                    "$ref": "#/$defs/installer"
-                },
-                "license": {
-                    "$ref": "#/$defs/license"
-                },
                 "note": {
                     "description": "自动更新完成之后的提示信息",
                     "$ref": "#/$defs/str"
                 },
-                "persist": {
-                    "$ref": "#/$defs/persist"
-                },
-                "post_install": {
-                    "$ref": "#/$defs/post_install"
-                },
-                "psmodule": {
-                    "$ref": "#/$defs/psmodule"
-                },
-                "shortcuts": {
-                    "$ref": "#/$defs/shortcuts"
-                },
-                "url": {
-                    "$ref": "#/$defs/url"
-                },
-                "hash": {
-                    "description": "一个对象，定义哈希的获取\n必需属性: url\n可选属性: regex/find,mode,jp/jsonpath,xpath",
-                    "type": "object",
-                    "properties": {
-                        "url": {
-                            "type": "string",
-                            "description": "用于下载RDF/JSON文件或提取哈希的URL模板"
-                        },
-                        "regex": {
-                            "type": "string",
-                            "description": "别名：find\nRegEx表达式来提取哈希"
-                        },
-                        "find": {
-                            "type": "string",
-                            "description": "别名：regex\nRegEx表达式来提取哈希"
-                        },
-                        "mode": {
-                            "examples": [
-                                "",
-                                "extract",
-                                "json",
-                                "xpath",
-                                "rdf",
-                                "metalink",
-                                "fosshub",
-                                "sourceforge",
-                                "download"
-                            ],
-                            "type": "string",
-                            "description": "extract: 通过RegEx从纯文本文件或网页中提取(默认，可省略)\njson: 通过JSONPath从JSON文件中提取\nxpath: 通过XML文件提取\nrdf: 从RDF文件中提取\nmetalink: 从Metalink的头文件或 .meta4 文件中提取\nfosshub: 自动。为FossHub预定义\nsourceforge: 自动。为SourceForge预定义\ndownload: 下载应用程序文件并在本地对其进行散列(回退)"
-                        },
-                        "jp": {
-                            "type": "string",
-                            "description": "别名：jsonpath\nJSONPath表达式提取哈希"
-                        },
-                        "jsonpath": {
-                            "type": "string",
-                            "description": "别名：jp\nJSONPath表达式提取哈希"
-                        },
-                        "xpath": {
-                            "type": "string",
-                            "description": "XPath表达式来提取哈希值"
-                        }
-                    }
-                },
                 "architecture": {
                     "type": "object",
-                    "description": "程序的体系结构。\n如果应用程序不是32位的，架构可以用来包装差异",
+                    "title": "类型: 对象",
+                    "description": "程序的体系结构。\n如果应用程序不是32位的，架构可以用来包装差异\n对象可用属性: 64bit,32bit,arm64",
                     "examples": [
                         {
                             "url": "",
@@ -824,27 +766,120 @@
                     ],
                     "properties": {
                         "64bit": {
-                            "description": "64位",
+                            "title": "类型: 对象",
+                            "description": "64位架构\n对象可用属性: url,hash",
                             "required": [
                                 "url"
                             ],
                             "$ref": "#/$defs/architecture"
                         },
                         "32bit": {
-                            "description": "32位",
+                            "title": "类型: 对象",
+                            "description": "32位架构\n对象可用属性: url,hash",
                             "required": [
                                 "url"
                             ],
                             "$ref": "#/$defs/architecture"
                         },
                         "arm64": {
-                            "description": "arm64",
+                            "title": "类型: 对象",
+                            "description": "arm64架构\n对象可用属性: url,hash",
                             "required": [
                                 "url"
                             ],
                             "$ref": "#/$defs/architecture"
                         }
                     }
+                },
+                "url": {
+                    "$ref": "#/$defs/url"
+                },
+                "hash": {
+                    "type": "object",
+                    "title": "类型: 对象",
+                    "description": "一个对象，定义哈希的获取\n对象可用属性: url,regex/find,mode,jp/jsonpath,xpath",
+                    "required": [
+                        "url"
+                    ],
+                    "properties": {
+                        "url": {
+                            "description": "用于下载RDF/JSON文件或提取哈希的URL模板",
+                            "$ref": "#/$defs/str"
+                        },
+                        "regex": {
+                            "description": "别名：find\nRegEx表达式来提取哈希",
+                            "$ref": "#/$defs/str"
+                        },
+                        "find": {
+                            "description": "别名：regex\nRegEx表达式来提取哈希",
+                            "$ref": "#/$defs/str"
+                        },
+                        "mode": {
+                            "description": "extract: 通过RegEx从纯文本文件或网页中提取(默认，可省略)\njson: 通过JSONPath从JSON文件中提取\nxpath: 通过XML文件提取\nrdf: 从RDF文件中提取\nmetalink: 从Metalink的头文件或 .meta4 文件中提取\nfosshub: 自动。为FossHub预定义\nsourceforge: 自动。为SourceForge预定义\ndownload: 下载应用程序文件并在本地对其进行散列(回退)",
+                            "allOf": [
+                                {
+                                    "examples": [
+                                        "extract",
+                                        "json",
+                                        "xpath",
+                                        "rdf",
+                                        "metalink",
+                                        "fosshub",
+                                        "sourceforge",
+                                        "download"
+                                    ]
+                                },
+                                {
+                                    "$ref": "#/$defs/str"
+                                }
+                            ]
+                        },
+                        "jp": {
+                            "description": "别名：jsonpath\nJSONPath表达式提取哈希",
+                            "$ref": "#/$defs/str"
+                        },
+                        "jsonpath": {
+                            "description": "别名：jp\nJSONPath表达式提取哈希",
+                            "$ref": "#/$defs/str"
+                        },
+                        "xpath": {
+                            "description": "XPath表达式来提取哈希值",
+                            "$ref": "#/$defs/str"
+                        }
+                    }
+                },
+                "bin": {
+                    "$ref": "#/$defs/bin"
+                },
+                "extract_dir": {
+                    "$ref": "#/$defs/extract_dir"
+                },
+                "extract_to": {
+                    "$ref": "#/$defs/extract_to"
+                },
+                "env_add_path": {
+                    "$ref": "#/$defs/env_add_path"
+                },
+                "env_set": {
+                    "$ref": "#/$defs/env_set"
+                },
+                "installer": {
+                    "$ref": "#/$defs/installer"
+                },
+                "license": {
+                    "$ref": "#/$defs/license"
+                },
+                "persist": {
+                    "$ref": "#/$defs/persist"
+                },
+                "post_install": {
+                    "$ref": "#/$defs/post_install"
+                },
+                "psmodule": {
+                    "$ref": "#/$defs/psmodule"
+                },
+                "shortcuts": {
+                    "$ref": "#/$defs/shortcuts"
                 }
             }
         }
