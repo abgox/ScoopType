@@ -94,10 +94,6 @@
             ]
         },
         "architecture": {
-            "required": [
-                "url",
-                "hash"
-            ],
             "examples": [
                 {
                     "url": "",
@@ -535,14 +531,26 @@
             "properties": {
                 "64bit": {
                     "description": "64位",
+                    "required": [
+                        "url",
+                        "hash"
+                    ],
                     "$ref": "#/$defs/architecture"
                 },
                 "32bit": {
                     "description": "32位",
+                    "required": [
+                        "url",
+                        "hash"
+                    ],
                     "$ref": "#/$defs/architecture"
                 },
                 "arm64": {
                     "description": "arm64",
+                    "required": [
+                        "url",
+                        "hash"
+                    ],
                     "$ref": "#/$defs/architecture"
                 }
             }
@@ -731,7 +739,49 @@
                     "$ref": "#/$defs/url"
                 },
                 "hash": {
-                    "$ref": "#/$defs/hash"
+                    "description": "一个对象，定义哈希的获取\n必需属性: url\n可选属性: regex/find,mode,jp/jsonpath,xpath",
+                    "type": "object",
+                    "properties": {
+                        "url": {
+                            "type": "string",
+                            "description": "用于下载RDF/JSON文件或提取哈希的URL模板"
+                        },
+                        "regex": {
+                            "type": "string",
+                            "description": "别名：find\nRegEx表达式来提取哈希"
+                        },
+                        "find": {
+                            "type": "string",
+                            "description": "别名：regex\nRegEx表达式来提取哈希"
+                        },
+                        "mode": {
+                            "examples": [
+                                "",
+                                "extract",
+                                "json",
+                                "xpath",
+                                "rdf",
+                                "metalink",
+                                "fosshub",
+                                "sourceforge",
+                                "download"
+                            ],
+                            "type": "string",
+                            "description": "extract: 通过RegEx从纯文本文件或网页中提取(默认，可省略)\njson: 通过JSONPath从JSON文件中提取\nxpath: 通过XML文件提取\nrdf: 从RDF文件中提取\nmetalink: 从Metalink的头文件或 .meta4 文件中提取\nfosshub: 自动。为FossHub预定义\nsourceforge: 自动。为SourceForge预定义\ndownload: 下载应用程序文件并在本地对其进行散列(回退)"
+                        },
+                        "jp": {
+                            "type": "string",
+                            "description": "别名：jsonpath\nJSONPath表达式提取哈希"
+                        },
+                        "jsonpath": {
+                            "type": "string",
+                            "description": "别名：jp\nJSONPath表达式提取哈希"
+                        },
+                        "xpath": {
+                            "type": "string",
+                            "description": "XPath表达式来提取哈希值"
+                        }
+                    }
                 },
                 "architecture": {
                     "type": "object",
@@ -775,14 +825,23 @@
                     "properties": {
                         "64bit": {
                             "description": "64位",
+                            "required": [
+                                "url"
+                            ],
                             "$ref": "#/$defs/architecture"
                         },
                         "32bit": {
                             "description": "32位",
+                            "required": [
+                                "url"
+                            ],
                             "$ref": "#/$defs/architecture"
                         },
                         "arm64": {
                             "description": "arm64",
+                            "required": [
+                                "url"
+                            ],
                             "$ref": "#/$defs/architecture"
                         }
                     }

@@ -94,10 +94,6 @@
             ]
         },
         "architecture": {
-            "required": [
-                "url",
-                "hash"
-            ],
             "examples": [
                 {
                     "url": "",
@@ -535,14 +531,26 @@
             "properties": {
                 "64bit": {
                     "description": "64bit",
+                    "required": [
+                        "url",
+                        "hash"
+                    ],
                     "$ref": "#/$defs/architecture"
                 },
                 "32bit": {
                     "description": "32bit",
+                    "required": [
+                        "url",
+                        "hash"
+                    ],
                     "$ref": "#/$defs/architecture"
                 },
                 "arm64": {
                     "description": "arm64",
+                    "required": [
+                        "url",
+                        "hash"
+                    ],
                     "$ref": "#/$defs/architecture"
                 }
             }
@@ -731,7 +739,49 @@
                     "$ref": "#/$defs/url"
                 },
                 "hash": {
-                    "$ref": "#/$defs/hash"
+                    "description": "An object that defines how hashes are obtained.\nRequired Properties: url\nOptional Properties: regex/find,mode,jp/jsonpath,xpath",
+                    "type": "object",
+                    "properties": {
+                        "url": {
+                            "type": "string",
+                            "description": "URL template for downloading RDF/JSON files or extracting hashes"
+                        },
+                        "regex": {
+                            "type": "string",
+                            "description": "Alias: find\nRegEx expression to extract the hash"
+                        },
+                        "find": {
+                            "type": "string",
+                            "description": "Alias: regex\nRegEx expression to extract the hash"
+                        },
+                        "mode": {
+                            "examples": [
+                                "",
+                                "extract",
+                                "json",
+                                "xpath",
+                                "rdf",
+                                "metalink",
+                                "fosshub",
+                                "sourceforge",
+                                "download"
+                            ],
+                            "type": "string",
+                            "description": "extract: Extract from a plain text file or webpage by RegEx (Default, can be omitted)\njson: Extract from a JSON file by JSONPath\nxpath: Extract from a XML file by XPath\nrdf: Extract from a RDF file\nmetalink: Extract from Metalink's header or .meta4 file\nfosshub: Automatic. Predefined for FossHub\nsourceforge: Automatic. Predefined for SourceForge\ndownload: Downloads the app file and hash it locally (Fallback)"
+                        },
+                        "jp": {
+                            "type": "string",
+                            "description": "Alias: jsonpath\nJSONPath expression to extract the hash"
+                        },
+                        "jsonpath": {
+                            "type": "string",
+                            "description": "Alias: jp\nJSONPath expression to extract the hash"
+                        },
+                        "xpath": {
+                            "type": "string",
+                            "description": "XPath expression to extract the hash"
+                        }
+                    }
                 },
                 "architecture": {
                     "type": "object",
@@ -775,14 +825,23 @@
                     "properties": {
                         "64bit": {
                             "description": "64bit",
+                            "required": [
+                                "url"
+                            ],
                             "$ref": "#/$defs/architecture"
                         },
                         "32bit": {
                             "description": "32bit",
+                            "required": [
+                                "url"
+                            ],
                             "$ref": "#/$defs/architecture"
                         },
                         "arm64": {
                             "description": "arm64",
+                            "required": [
+                                "url"
+                            ],
                             "$ref": "#/$defs/architecture"
                         }
                     }
