@@ -48,7 +48,7 @@
         },
         "license_examples": {
             "type": "string",
-            "enum": [
+            "examples": [
                 "",
                 "MIT",
                 "Apache",
@@ -261,12 +261,12 @@
                             "description": "用计算值替换匹配值",
                             "$ref": "#/$defs/str"
                         },
-                        "useragent":{
-                            "description":"用于获取网页内容的 User-Agent",
+                        "useragent": {
+                            "description": "用于获取网页内容的 User-Agent",
                             "$ref": "#/$defs/str"
                         },
-                        "script":{
-                            "description":"可包含 PowerShell 命令的字符串或字符串数组，用于跟踪多个链接",
+                        "script": {
+                            "description": "可包含 PowerShell 命令的字符串或字符串数组，用于跟踪多个链接",
                             "$ref": "#/$defs/arr_str"
                         }
                     }

@@ -48,7 +48,7 @@
         },
         "license_examples": {
             "type": "string",
-            "enum": [
+            "examples": [
                 "",
                 "MIT",
                 "Apache",
