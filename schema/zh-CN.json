@@ -1,8 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "object",
-    "title": "Scoop 应用清单的json文件类型定义",
-    "description": "Scoop 应用清单的json文件类型定义，用于给json文档绑定类型，获取属性提示，优化应用清单编写体验。",
     "required": [
         "version",
         "description",

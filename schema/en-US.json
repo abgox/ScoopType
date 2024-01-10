@@ -1,8 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "object",
-    "title": "The Scoop manifest definition",
-    "description": "The JSON file type definition for Scoop application manifest is used to bind types to JSON documents, get attribute prompts, and optimize the application manifest writing experience.",
     "required": [
         "version",
         "description",
