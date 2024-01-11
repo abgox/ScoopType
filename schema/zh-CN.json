@@ -54,6 +54,8 @@
                 "MIT",
                 "Apache",
                 "Apache License 2.0",
+                "Mozilla Public License 2.0",
+                "GNU General Public License v3.0",
                 "Freeware",
                 "Proprietary",
                 "Public Domain",
@@ -63,7 +65,7 @@
         },
         "license": {
             "title": "类型: 字符串或对象(可用属性: identifier,url)",
-            "description": "程序的软件许可证的字符串或散列。\n对于知名许可证，请使用此页面中的标识符 https://spdx.org/licenses\n对于其他许可证，请尽量使用对象形式，包含 identifier、url 属性。\n如果可用，请将许可证的 URL 填入 url 属性。\n否则，请酌情使用\"Freeware\"、\"Proprietary\"、\"Public Domain\"、\"Shareware\"或\"Unknown\"。\n如果不同的文件具有不同的许可证，请用逗号(,)分隔许可证。\n如果整个应用程序是双重许可的，则使用管道符号(|)分隔许可。",
+            "description": "程序的软件许可证的字符串或散列。\n对于知名许可证，请使用此页面中的标识符 https://spdx.org/licenses\n对于其他许可证，请尽量使用对象形式，包含 identifier、url 属性。\n如果可用，请将许可证的 URL 填入 url 属性。\n否则，请酌情使用 \"Freeware\"(永久免费)、\"Proprietary\"(必须付费使用)、\"Public Domain\"(公共领域)、\"Shareware\"(免费尝试，最终必须付费)、\"Unknown\"(无法确定许可证)。\n如果不同的文件具有不同的许可证，请用逗号(,)分隔许可证。\n如果整个应用程序是双重许可的，则使用管道符号(|)分隔许可。",
             "oneOf": [
                 {
                     "type": "object",
@@ -81,7 +83,7 @@
                     ],
                     "properties": {
                         "identifier": {
-                            "description": "SPDX 标识符，或者 \"Freeware\"(永久免费)、\"Proprietary\"(必须付费使用)、\"Public Domain\"、\"Shareware\"(免费尝试，最终必须付费)、\"Unknown\"(无法确定许可证)，视情况而定。",
+                            "description": "SPDX 标识符，或者 \"Freeware\"(永久免费)、\"Proprietary\"(必须付费使用)、\"Public Domain\"(公共领域)、\"Shareware\"(免费尝试，最终必须付费)、\"Unknown\"(无法确定许可证)，视情况而定。",
                             "$ref": "#/$defs/license_examples"
                         },
                         "url": {
@@ -96,22 +98,10 @@
             ]
         },
         "architecture": {
-            "examples": [
-                {
-                    "url": "",
-                    "hash": ""
-                },
-                {
-                    "url": [],
-                    "hash": []
-                }
-            ],
+            "title": "类型: 对象",
             "properties": {
                 "url": {
                     "$ref": "#/$defs/url"
-                },
-                "hash": {
-                    "$ref": "#/$defs/hash"
                 },
                 "extract_dir": {
                     "$ref": "#/$defs/extract_dir"
@@ -139,6 +129,95 @@
                 }
             }
         },
+        "architecture_install": {
+            "required": [
+                "url",
+                "hash"
+            ],
+            "allOf": [
+                {
+                    "$ref": "#/$defs/architecture"
+                },
+                {
+                    "properties": {
+                        "hash": {
+                            "$ref": "#/$defs/hash"
+                        }
+                    }
+                }
+            ]
+        },
+        "architecture_autoupdate": {
+            "required": [
+                "url"
+            ],
+            "allOf": [
+                {
+                    "$ref": "#/$defs/architecture"
+                },
+                {
+                    "properties": {
+                        "hash": {
+                            "$ref": "#/$defs/get_hash"
+                        }
+                    }
+                }
+            ]
+        },
+        "get_hash": {
+            "type": "object",
+            "title": "类型: 对象",
+            "description": "一个对象，定义哈希的获取\n对象可用属性: url,regex/find,mode,jp/jsonpath,xpath",
+            "required": [
+                "url"
+            ],
+            "properties": {
+                "url": {
+                    "description": "用于下载RDF/JSON文件或提取哈希的URL模板",
+                    "$ref": "#/$defs/str"
+                },
+                "regex": {
+                    "description": "别名：find\nRegEx表达式来提取哈希",
+                    "$ref": "#/$defs/str"
+                },
+                "find": {
+                    "description": "别名：regex\nRegEx表达式来提取哈希",
+                    "$ref": "#/$defs/str"
+                },
+                "mode": {
+                    "description": "extract: 通过RegEx从纯文本文件或网页中提取(默认，可省略)\njson: 通过JSONPath从JSON文件中提取\nxpath: 通过XML文件提取\nrdf: 从RDF文件中提取\nmetalink: 从Metalink的头文件或 .meta4 文件中提取\nfosshub: 自动。为FossHub预定义\nsourceforge: 自动。为SourceForge预定义\ndownload: 下载应用程序文件并在本地对其进行散列(回退)",
+                    "allOf": [
+                        {
+                            "examples": [
+                                "extract",
+                                "json",
+                                "xpath",
+                                "rdf",
+                                "metalink",
+                                "fosshub",
+                                "sourceforge",
+                                "download"
+                            ]
+                        },
+                        {
+                            "$ref": "#/$defs/str"
+                        }
+                    ]
+                },
+                "jp": {
+                    "description": "别名：jsonpath\nJSONPath表达式提取哈希",
+                    "$ref": "#/$defs/str"
+                },
+                "jsonpath": {
+                    "description": "别名：jp\nJSONPath表达式提取哈希",
+                    "$ref": "#/$defs/str"
+                },
+                "xpath": {
+                    "description": "XPath表达式来提取哈希值",
+                    "$ref": "#/$defs/str"
+                }
+            }
+        },
         "url": {
             "description": "要下载的文件的URL。\n如果有多个URL，可以使用JSON数组\n例如: \"url\": [\"http://example.org/program.zip\", \"http://example.org/dependencies.zip\"] 。\nURL可以是HTTP、HTTPS或FTP。\n要更改下载URL的文件名，您可以将 URL 片段以 (#) 开头）附加到 URL\n如：\"http://example.org/program.exe\" -> \"http://example.org/program.exe#/dl.7z\"\n请注意，片段必须以 #/ 开头才有效。\n在上面的例子中，Scoop将下载 program.exe ，但将其保存为 dl.7z ，然后将使用7-Zip自动提取。\n此技术通常用于 Scoop 清单中，以绕过可能具有不良副作用的可执行安装程序，如注册表更改，放置在安装目录外的文件或管理员提升提示。",
             "$ref": "#/$defs/arr_str"
@@ -152,33 +231,32 @@
             "description": "一个程序(可执行文件或脚本)的字符串或字符串数组，可在用户路径上使用。\n可以通过一个二维数组来创建一个别名 shim，它使用与真实的可执行文件不同的名称，并(可选地)将参数传递给可执行文件。\n二维数组应该包含最多三个字符串：程序名,别名,参数(可选)",
             "examples": [
                 "",
-                "program.exe",
                 [
-                    "program1.exe",
-                    "program2.exe"
+                    "",
+                    ""
                 ],
                 [
-                    "program1.exe",
+                    "",
                     [
-                        "program2.exe",
-                        "别名"
+                        "",
+                        ""
                     ]
                 ],
                 [
                     [
-                        "program1.exe",
-                        "别名"
+                        "",
+                        ""
                     ],
                     [
-                        "program2.exe",
-                        "别名"
+                        "",
+                        ""
                     ]
                 ],
                 [
                     [
-                        "program.exe",
-                        "别名",
-                        "--arguments(参数)"
+                        "",
+                        "",
+                        ""
                     ]
                 ]
             ],
@@ -465,6 +543,11 @@
             "required": [
                 "name"
             ],
+            "examples": [
+                {
+                    "name": ""
+                }
+            ],
             "title": "类型: 对象",
             "description": "在 ~/scoop/modules 中作为PowerShell模块安装。",
             "properties": {
@@ -546,31 +629,16 @@
             ],
             "properties": {
                 "64bit": {
-                    "title": "类型: 对象",
                     "description": "64位架构\n对象可用属性: url,hash,bin,extract_dir,installer,uninstaller,pre_install,post_install,shortcuts,checkver",
-                    "required": [
-                        "url",
-                        "hash"
-                    ],
-                    "$ref": "#/$defs/architecture"
+                    "$ref": "#/$defs/architecture_install"
                 },
                 "32bit": {
-                    "title": "类型: 对象",
                     "description": "32位架构\n对象可用属性: url,hash,bin,extract_dir,installer,uninstaller,pre_install,post_install,shortcuts,checkver",
-                    "required": [
-                        "url",
-                        "hash"
-                    ],
-                    "$ref": "#/$defs/architecture"
+                    "$ref": "#/$defs/architecture_install"
                 },
                 "arm64": {
-                    "title": "类型: 对象",
                     "description": "arm64架构\n对象可用属性: url,hash,bin,extract_dir,installer,uninstaller,pre_install,post_install,shortcuts,checkver",
-                    "required": [
-                        "url",
-                        "hash"
-                    ],
-                    "$ref": "#/$defs/architecture"
+                    "$ref": "#/$defs/architecture_install"
                 }
             }
         },
@@ -666,6 +734,14 @@
                 {
                     "architecture": {
                         "64bit": {
+                            "url": "",
+                            "hash": {}
+                        }
+                    }
+                },
+                {
+                    "architecture": {
+                        "64bit": {
                             "url": ""
                         },
                         "32bit": {
@@ -729,63 +805,66 @@
                     "examples": [
                         {
                             "url": "",
-                            "hash": ""
-                        },
-                        {
-                            "64bit": {
-                                "url": "",
-                                "hash": ""
+                            "hash": {
+                                "url": ""
                             }
                         },
                         {
                             "64bit": {
                                 "url": "",
-                                "hash": ""
-                            },
-                            "32bit": {
-                                "url": "",
-                                "hash": ""
+                                "hash": {
+                                    "url": "",
+                                    "regex": ""
+                                }
                             }
                         },
                         {
                             "64bit": {
                                 "url": "",
-                                "hash": ""
+                                "hash": {
+                                    "url": "",
+                                    "regex": ""
+                                }
                             },
                             "32bit": {
                                 "url": "",
-                                "hash": ""
+                                "hash": {
+                                    "url": "",
+                                    "regex": ""
+                                }
+                            }
+                        },
+                        {
+                            "64bit": {
+                                "url": ""
                             },
-                            "arm64": {
+                            "32bit": {
+                                "url": ""
+                            },
+                            "hash": {
                                 "url": "",
-                                "hash": ""
+                                "regex": ""
                             }
                         }
                     ],
                     "properties": {
                         "64bit": {
-                            "title": "类型: 对象",
                             "description": "64位架构\n对象可用属性: url,hash,bin,extract_dir,installer,uninstaller,pre_install,post_install,shortcuts",
-                            "required": [
-                                "url"
-                            ],
-                            "$ref": "#/$defs/architecture"
+                            "$ref": "#/$defs/architecture_autoupdate"
                         },
                         "32bit": {
-                            "title": "类型: 对象",
                             "description": "32位架构\n对象可用属性: url,hash,bin,extract_dir,installer,uninstaller,pre_install,post_install,shortcuts",
                             "required": [
                                 "url"
                             ],
-                            "$ref": "#/$defs/architecture"
+                            "$ref": "#/$defs/architecture_autoupdate"
                         },
                         "arm64": {
-                            "title": "类型: 对象",
                             "description": "arm64架构\n对象可用属性: url,hash,bin,extract_dir,installer,uninstaller,pre_install,post_install,shortcuts",
                             "required": [
                                 "url"
                             ],
-                            "$ref": "#/$defs/architecture"
+                            "$ref": "#/$defs/architecture_autoupdate"
                         }
                     }
                 },
@@ -793,58 +872,7 @@
                     "$ref": "#/$defs/url"
                 },
                 "hash": {
-                    "type": "object",
-                    "title": "类型: 对象",
-                    "description": "一个对象，定义哈希的获取\n对象可用属性: url,regex/find,mode,jp/jsonpath,xpath",
-                    "required": [
-                        "url"
-                    ],
-                    "properties": {
-                        "url": {
-                            "description": "用于下载RDF/JSON文件或提取哈希的URL模板",
-                            "$ref": "#/$defs/str"
-                        },
-                        "regex": {
-                            "description": "别名：find\nRegEx表达式来提取哈希",
-                            "$ref": "#/$defs/str"
-                        },
-                        "find": {
-                            "description": "别名：regex\nRegEx表达式来提取哈希",
-                            "$ref": "#/$defs/str"
-                        },
-                        "mode": {
-                            "description": "extract: 通过RegEx从纯文本文件或网页中提取(默认，可省略)\njson: 通过JSONPath从JSON文件中提取\nxpath: 通过XML文件提取\nrdf: 从RDF文件中提取\nmetalink: 从Metalink的头文件或 .meta4 文件中提取\nfosshub: 自动。为FossHub预定义\nsourceforge: 自动。为SourceForge预定义\ndownload: 下载应用程序文件并在本地对其进行散列(回退)",
-                            "allOf": [
-                                {
-                                    "examples": [
-                                        "extract",
-                                        "json",
-                                        "xpath",
-                                        "rdf",
-                                        "metalink",
-                                        "fosshub",
-                                        "sourceforge",
-                                        "download"
-                                    ]
-                                },
-                                {
-                                    "$ref": "#/$defs/str"
-                                }
-                            ]
-                        },
-                        "jp": {
-                            "description": "别名：jsonpath\nJSONPath表达式提取哈希",
-                            "$ref": "#/$defs/str"
-                        },
-                        "jsonpath": {
-                            "description": "别名：jp\nJSONPath表达式提取哈希",
-                            "$ref": "#/$defs/str"
-                        },
-                        "xpath": {
-                            "description": "XPath表达式来提取哈希值",
-                            "$ref": "#/$defs/str"
-                        }
-                    }
+                    "$ref": "#/$defs/get_hash"
                 },
                 "bin": {
                     "$ref": "#/$defs/bin"

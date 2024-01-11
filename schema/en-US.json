@@ -55,6 +55,8 @@
                 "MIT",
                 "Apache",
                 "Apache License 2.0",
+                "Mozilla Public License 2.0",
+                "GNU General Public License v3.0",
                 "Freeware",
                 "Proprietary",
                 "Public Domain",
@@ -63,7 +65,7 @@
             ]
         },
         "license": {
-            "description": "A string or hash of the software license for the program. \nFor well-known licenses, please use the identifier found at https://spdx.org/licenses\nFor other licenses, use object form, including identifier and URL attributes.\nIf available, please fill the URL of the license into the URL attribute.\nOtherwise, use \"Freeware\", \"Proprietary\", \"Public Domain\", \"Shareware\", or \"Unknown\", as appropriate.\nIf different files have different licenses, separate licenses with a comma (,).\nIf the entire application is dual licensed, separate licenses with a pipe symbol (|).",
+            "description": "A string or hash of the software license for the program. \nFor well-known licenses, please use the identifier found at https://spdx.org/licenses\nFor other licenses, use object form, including identifier and URL attributes.\nIf available, please fill the URL of the license into the URL attribute.\nOtherwise, use \"Freeware\"(free to use forever), \"Proprietary\"(must pay to use), \"Public Domain\", \"Shareware\"(free to try, must pay finally), or \"Unknown\"(unable to determine the license), as appropriate.\nIf different files have different licenses, separate licenses with a comma (,).\nIf the entire application is dual licensed, separate licenses with a pipe symbol (|).",
             "oneOf": [
                 {
                     "type": "object",
@@ -81,7 +83,7 @@
                     ],
                     "properties": {
                         "identifier": {
-                            "description": "The SPDX identifier, or \"Freeware\" (free to use forever), \"Proprietary\" (must pay to use), \"Public Domain\", \"Shareware\" (free to try, must pay eventually), or \"Unknown\" (unable to determine the license), as appropriate.",
+                            "description": "The SPDX identifier, or \"Freeware\"(free to use forever), \"Proprietary\"(must pay to use), \"Public Domain\", \"Shareware\"(free to try, must pay finally), or \"Unknown\"(unable to determine the license), as appropriate.",
                             "$ref": "#/$defs/license_examples"
                         },
                         "url": {
@@ -96,22 +98,10 @@
             ]
         },
         "architecture": {
-            "examples": [
-                {
-                    "url": "",
-                    "hash": ""
-                },
-                {
-                    "url": [],
-                    "hash": []
-                }
-            ],
+            "title": "Type: object",
             "properties": {
                 "url": {
                     "$ref": "#/$defs/url"
-                },
-                "hash": {
-                    "$ref": "#/$defs/hash"
                 },
                 "extract_dir": {
                     "$ref": "#/$defs/extract_dir"
@@ -139,6 +129,95 @@
                 }
             }
         },
+        "architecture_install": {
+            "required": [
+                "url",
+                "hash"
+            ],
+            "allOf": [
+                {
+                    "$ref": "#/$defs/architecture"
+                },
+                {
+                    "properties": {
+                        "hash": {
+                            "$ref": "#/$defs/hash"
+                        }
+                    }
+                }
+            ]
+        },
+        "architecture_autoupdate": {
+            "required": [
+                "url"
+            ],
+            "allOf": [
+                {
+                    "$ref": "#/$defs/architecture"
+                },
+                {
+                    "properties": {
+                        "hash": {
+                            "$ref": "#/$defs/get_hash"
+                        }
+                    }
+                }
+            ]
+        },
+        "get_hash": {
+            "title": "Type: object",
+            "description": "An object that defines how hashes are obtained.\nObject Available attributes: url,regex/find,mode,jp/jsonpath,xpath",
+            "required": [
+                "url"
+            ],
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "description": "URL template for downloading RDF/JSON files or extracting hashes"
+                },
+                "regex": {
+                    "type": "string",
+                    "description": "Alias: find\nRegEx expression to extract the hash"
+                },
+                "find": {
+                    "type": "string",
+                    "description": "Alias: regex\nRegEx expression to extract the hash"
+                },
+                "mode": {
+                    "description": "extract: Extract from a plain text file or webpage by RegEx (Default, can be omitted)\njson: Extract from a JSON file by JSONPath\nxpath: Extract from a XML file by XPath\nrdf: Extract from a RDF file\nmetalink: Extract from Metalink's header or .meta4 file\nfosshub: Automatic. Predefined for FossHub\nsourceforge: Automatic. Predefined for SourceForge\ndownload: Downloads the app file and hash it locally (Fallback)",
+                    "allOf": [
+                        {
+                            "examples": [
+                                "extract",
+                                "json",
+                                "xpath",
+                                "rdf",
+                                "metalink",
+                                "fosshub",
+                                "sourceforge",
+                                "download"
+                            ]
+                        },
+                        {
+                            "$ref": "#/$defs/str"
+                        }
+                    ]
+                },
+                "jp": {
+                    "type": "string",
+                    "description": "Alias: jsonpath\nJSONPath expression to extract the hash"
+                },
+                "jsonpath": {
+                    "type": "string",
+                    "description": "Alias: jp\nJSONPath expression to extract the hash"
+                },
+                "xpath": {
+                    "type": "string",
+                    "description": "XPath expression to extract the hash"
+                }
+            }
+        },
         "url": {
             "description": "The URL or URLs of files to download.\nIf there's more than one URL, you can use a JSON - array.\ne.g. \"url\": [ \"http://example.org/program.zip\", \"http://example.org/dependencies.zip\" ].\nURLs can be HTTP, HTTPS or FTP.\nTo change the filename of the downloaded URL, you can append a URL fragment (starting with #) to URLs.\ne.g. \"http://example.org/program.exe\" -> \"http://example.org/program.exe#/dl.7z\"\nNote the fragment must start with #/ for this to work.\nIn the above example, Scoop will download program.exe but save it as dl.7z, which will then be extracted automatically with 7-Zip. This technique is commonly used in Scoop manifests to bypass executable installers which might have undesirable side-effects like registry changes, files placed outside the install directory, or an admin elevation prompt.",
             "$ref": "#/$defs/arr_str"
@@ -152,33 +231,32 @@
             "description": "A string or array of strings of programs (executables or scripts) to make available on the user's path.\nA two-dimensional array can be used to create an alias shim, which uses a different name to the real executable and (optionally) passes arguments to the executable.\nThe two-dimensional array should contain up to three strings: program name, alias, and parameters(optional).",
             "examples": [
                 "",
-                "program.exe",
                 [
-                    "program1.exe",
-                    "program2.exe"
+                    "",
+                    ""
                 ],
                 [
-                    "program1.exe",
+                    "",
                     [
-                        "program2.exe",
-                        "Alias"
+                        "",
+                        ""
                     ]
                 ],
                 [
                     [
-                        "program1.exe",
-                        "Alias"
+                        "",
+                        ""
                     ],
                     [
-                        "program2.exe",
-                        "Alias"
+                        "",
+                        ""
                     ]
                 ],
                 [
                     [
-                        "program.exe",
-                        "Alias",
-                        "--arguments"
+                        "",
+                        "",
+                        ""
                     ]
                 ]
             ],
@@ -464,6 +542,11 @@
             "required": [
                 "name"
             ],
+            "examples": [
+                {
+                    "name": ""
+                }
+            ],
             "title": "Type: object",
             "description": "Install as a PowerShell module in ~/scoop/modules",
             "properties": {
@@ -545,31 +628,16 @@
             ],
             "properties": {
                 "64bit": {
-                    "title": "Type: object",
                     "description": "64bit\nObject Available attributes: url,hash,bin,extract_dir,installer,uninstaller,pre_install,post_install,shortcuts,checkver",
-                    "required": [
-                        "url",
-                        "hash"
-                    ],
-                    "$ref": "#/$defs/architecture"
+                    "$ref": "#/$defs/architecture_install"
                 },
                 "32bit": {
-                    "title": "Type: object",
                     "description": "32bit\nObject Available attributes: url,hash,bin,extract_dir,installer,uninstaller,pre_install,post_install,shortcuts,checkver",
-                    "required": [
-                        "url",
-                        "hash"
-                    ],
-                    "$ref": "#/$defs/architecture"
+                    "$ref": "#/$defs/architecture_install"
                 },
                 "arm64": {
-                    "title": "Type: object",
                     "description": "arm64\nObject Available attributes: url,hash,bin,extract_dir,installer,uninstaller,pre_install,post_install,shortcuts,checkver",
-                    "required": [
-                        "url",
-                        "hash"
-                    ],
-                    "$ref": "#/$defs/architecture"
+                    "$ref": "#/$defs/architecture_install"
                 }
             }
         },
@@ -665,6 +733,14 @@
                 {
                     "architecture": {
                         "64bit": {
+                            "url": "",
+                            "hash": {}
+                        }
+                    }
+                },
+                {
+                    "architecture": {
+                        "64bit": {
                             "url": ""
                         },
                         "32bit": {
@@ -728,63 +804,60 @@
                     "examples": [
                         {
                             "url": "",
-                            "hash": ""
-                        },
-                        {
-                            "64bit": {
-                                "url": "",
-                                "hash": ""
+                            "hash": {
+                                "url": ""
                             }
                         },
                         {
                             "64bit": {
                                 "url": "",
-                                "hash": ""
-                            },
-                            "32bit": {
-                                "url": "",
-                                "hash": ""
+                                "hash": {
+                                    "url": "",
+                                    "regex": ""
+                                }
                             }
                         },
                         {
                             "64bit": {
                                 "url": "",
-                                "hash": ""
+                                "hash": {
+                                    "url": "",
+                                    "regex": ""
+                                }
                             },
                             "32bit": {
                                 "url": "",
-                                "hash": ""
+                                "hash": {
+                                    "url": "",
+                                    "regex": ""
+                                }
+                            }
+                        },
+                        {
+                            "64bit": {
+                                "url": ""
                             },
-                            "arm64": {
+                            "32bit": {
+                                "url": ""
+                            },
+                            "hash": {
                                 "url": "",
-                                "hash": ""
+                                "regex": ""
                             }
                         }
                     ],
                     "properties": {
                         "64bit": {
-                            "title": "Type: object",
                             "description": "64bit\nObject Available attributes: url,hash,bin,extract_dir,installer,uninstaller,pre_install,post_install,shortcuts",
-                            "required": [
-                                "url"
-                            ],
-                            "$ref": "#/$defs/architecture"
+                            "$ref": "#/$defs/architecture_autoupdate"
                         },
                         "32bit": {
-                            "title": "Type: object",
                             "description": "32bit\nObject Available attributes: url,hash,bin,extract_dir,installer,uninstaller,pre_install,post_install,shortcuts",
-                            "required": [
-                                "url"
-                            ],
-                            "$ref": "#/$defs/architecture"
+                            "$ref": "#/$defs/architecture_autoupdate"
                         },
                         "arm64": {
-                            "title": "Type: object",
                             "description": "arm64\nObject Available attributes: url,hash,bin,extract_dir,installer,uninstaller,pre_install,post_install,shortcuts",
-                            "required": [
-                                "url"
-                            ],
-                            "$ref": "#/$defs/architecture"
+                            "$ref": "#/$defs/architecture_autoupdate"
                         }
                     }
                 },
@@ -792,58 +865,7 @@
                     "$ref": "#/$defs/url"
                 },
                 "hash": {
-                    "title": "Type: object",
-                    "description": "An object that defines how hashes are obtained.\nObject Available attributes: url,regex/find,mode,jp/jsonpath,xpath",
-                    "required": [
-                        "url"
-                    ],
-                    "type": "object",
-                    "properties": {
-                        "url": {
-                            "type": "string",
-                            "description": "URL template for downloading RDF/JSON files or extracting hashes"
-                        },
-                        "regex": {
-                            "type": "string",
-                            "description": "Alias: find\nRegEx expression to extract the hash"
-                        },
-                        "find": {
-                            "type": "string",
-                            "description": "Alias: regex\nRegEx expression to extract the hash"
-                        },
-                        "mode": {
-                            "description": "extract: Extract from a plain text file or webpage by RegEx (Default, can be omitted)\njson: Extract from a JSON file by JSONPath\nxpath: Extract from a XML file by XPath\nrdf: Extract from a RDF file\nmetalink: Extract from Metalink's header or .meta4 file\nfosshub: Automatic. Predefined for FossHub\nsourceforge: Automatic. Predefined for SourceForge\ndownload: Downloads the app file and hash it locally (Fallback)",
-                            "allOf": [
-                                {
-                                    "examples": [
-                                        "extract",
-                                        "json",
-                                        "xpath",
-                                        "rdf",
-                                        "metalink",
-                                        "fosshub",
-                                        "sourceforge",
-                                        "download"
-                                    ]
-                                },
-                                {
-                                    "$ref": "#/$defs/str"
-                                }
-                            ]
-                        },
-                        "jp": {
-                            "type": "string",
-                            "description": "Alias: jsonpath\nJSONPath expression to extract the hash"
-                        },
-                        "jsonpath": {
-                            "type": "string",
-                            "description": "Alias: jp\nJSONPath expression to extract the hash"
-                        },
-                        "xpath": {
-                            "type": "string",
-                            "description": "XPath expression to extract the hash"
-                        }
-                    }
+                    "$ref": "#/$defs/get_hash"
                 },
                 "bin": {
                     "$ref": "#/$defs/bin"
