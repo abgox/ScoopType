@@ -39,16 +39,24 @@
     > Recommend using [vscode](https://code.visualstudio.com)
 
     ```json
-    "$schema": "https://raw.githubusercontent.com/abgox/ScoopType/main/schema/zh-CN-min.json"
+    "$schema": "https://abgox.github.io/ScoopType/schema/zh-CN-min.json"
     ```
 
 -   URL
 
     -   Remove the `-min` from the file name, which means the uncompressed file.
 
-    -   `https://raw.githubusercontent.com/abgox/ScoopType/main/schema/zh-CN-min.json`
+    -   Github
 
-    -   `https://raw.githubusercontent.com/abgox/ScoopType/main/schema/en-US-min.json`
+        -   `https://abgox.github.io/ScoopType/schema/zh-CN-min.json`
+
+        -   `https://abgox.github.io/ScoopType/schema/en-US-min.json`
+
+    -   Gitee
+
+        -   `https://abgox.gitee.io/scooptype/schema/zh-CN-min.json`
+
+        -   `https://abgox.gitee.io/ScoopType/schema/en-US-min.json`
 
 ## Demo
 

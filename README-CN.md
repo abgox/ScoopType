@@ -39,16 +39,24 @@
     > 推荐使用 [vscode](https://code.visualstudio.com)
 
     ```json
-    "$schema": "https://raw.githubusercontent.com/abgox/ScoopType/main/schema/zh-CN-min.json"
+    "$schema": "https://abgox.github.io/ScoopType/schema/zh-CN-min.json",
     ```
 
 -   URL
 
     -   移除文件名中的 `-min`，就是未压缩文件
 
-    -   `https://raw.githubusercontent.com/abgox/ScoopType/main/schema/zh-CN-min.json`
+    -   Github
 
-    -   `https://raw.githubusercontent.com/abgox/ScoopType/main/schema/en-US-min.json`
+        -   `https://abgox.github.io/ScoopType/schema/zh-CN-min.json`
+
+        -   `https://abgox.github.io/ScoopType/schema/en-US-min.json`
+
+    -   Gitee
+
+        -   `https://abgox.gitee.io/scooptype/schema/zh-CN-min.json`
+
+        -   `https://abgox.gitee.io/ScoopType/schema/en-US-min.json`
 
 ## Demo
 
