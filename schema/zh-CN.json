@@ -8,6 +8,9 @@
         "license"
     ],
     "dependentRequired": {
+        "url": [
+            "hash"
+        ],
         "autoupdate": [
             "checkver"
         ]
@@ -298,6 +301,12 @@
                 {
                     "url": "",
                     "regex": ""
+                },
+                {
+                    "script": [
+                        ""
+                    ],
+                    "regex": ""
                 }
             ],
             "oneOf": [
@@ -535,8 +544,37 @@
             "minProperties": 1
         },
         "persist": {
-            "description": "目录和文件的字符串或字符串数组，用于在应用程序的数据目录中持久化。",
-            "$ref": "#/$defs/arr_str"
+            "description": "目录和文件的字符串或数组(字符串数组或二维数组)，用于在应用程序的数据目录中持久化。",
+            "examples": [
+                "",
+                [
+                    ""
+                ],
+                [
+                    [
+                        "",
+                        ""
+                    ]
+                ]
+            ],
+            "oneOf": [
+                {
+                    "type": "array",
+                    "items": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "array"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "type": "string"
+                }
+            ]
         },
         "psmodule": {
             "type": "object",

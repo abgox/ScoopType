@@ -8,6 +8,9 @@
         "license"
     ],
     "dependentRequired": {
+        "url": [
+            "hash"
+        ],
         "autoupdate": [
             "checkver"
         ]
@@ -297,6 +300,12 @@
                 {
                     "url": "",
                     "regex": ""
+                },
+                {
+                    "script": [
+                        ""
+                    ],
+                    "regex": ""
                 }
             ],
             "oneOf": [
@@ -534,8 +543,37 @@
             "minProperties": 1
         },
         "persist": {
-            "description": "A string or array of strings of directories and files to persist inside the data directory for the app.",
-            "$ref": "#/$defs/arr_str"
+            "description": "A string or array (string array or two-dimensional array) of directories and files to persist inside the data directory for the app.",
+            "examples": [
+                "",
+                [
+                    ""
+                ],
+                [
+                    [
+                        "",
+                        ""
+                    ]
+                ]
+            ],
+            "oneOf": [
+                {
+                    "type": "array",
+                    "items": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "array"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "type": "string"
+                }
+            ]
         },
         "psmodule": {
             "type": "object",
