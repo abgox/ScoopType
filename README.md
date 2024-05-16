@@ -38,25 +38,33 @@
 
     > Recommend using [vscode](https://code.visualstudio.com)
 
-    ```json
-    "$schema": "https://abgox.github.io/ScoopType/schema/zh-CN-min.json"
-    ```
+    -   The first way: Add this property directly in json file.
+        ```json
+        "$schema": "https://abgox.github.io/ScoopType/schema/en-US-min.json",
+        ```
+    -   The second way: It can be added in the vscode configuration file (settings.json), which will apply to all matching json files.
 
--   URL
+        -   If you're not using vscode, you'll need to look up the official configuration method for the editor you're using
 
-    -   Remove the `-min` from the file name, which means the uncompressed file.
+        ```json
+        "json.schemas": [
+                {
+                    "url": "https://abgox.github.io/ScoopType/schema/en-US-min.json",
+                    "fileMatch": [
+                        "bucket/**/*.json",
+                        "deprecated/**/*.json"
+                    ]
+                }
+            ]
+        ```
 
-    -   Github
+    -   The second way is recommended. It isn't intrusive on the original json file.
 
-        -   `https://abgox.github.io/ScoopType/schema/zh-CN-min.json`
+-   Url (Remove the `-min` from the file name, which means the uncompressed file.)
 
-        -   `https://abgox.github.io/ScoopType/schema/en-US-min.json`
+    -   `https://abgox.github.io/ScoopType/schema/zh-CN-min.json`
 
-    -   Gitee
-
-        -   `https://abgox.gitee.io/scooptype/schema/zh-CN-min.json`
-
-        -   `https://abgox.gitee.io/ScoopType/schema/en-US-min.json`
+    -   `https://abgox.github.io/ScoopType/schema/en-US-min.json`
 
 ## Demo
 
