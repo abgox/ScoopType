@@ -23,6 +23,8 @@
 
 ---
 
+# Note: It has been moved to a new repo ([schema](https://github.com/abgox/schema)) to manage together.
+
 ## Introduce
 
 -   Provide friendly prompts and verification when writing app manifests.
@@ -40,7 +42,7 @@
 
     -   The first way: Add this property directly in json file.
         ```json
-        "$schema": "https://abgox.github.io/ScoopType/schema/en-US-min.json",
+        "$schema": "https://abgox.github.io/schema/Scoop/en-US/manifest-min.json",
         ```
     -   The second way: It can be added in the vscode configuration file (settings.json), which will apply to all matching json files.
 
@@ -49,7 +51,7 @@
         ```json
         "json.schemas": [
                 {
-                    "url": "https://abgox.github.io/ScoopType/schema/en-US-min.json",
+                    "url": "https://abgox.github.io/schema/Scoop/en-US/manifest-min.json",
                     "fileMatch": [
                         "bucket/**/*.json",
                         "deprecated/**/*.json"
@@ -62,9 +64,9 @@
 
 -   Url (Remove the `-min` from the file name, which means the uncompressed file.)
 
-    -   `https://abgox.github.io/ScoopType/schema/zh-CN-min.json`
+    -   `https://abgox.github.io/schema/Scoop/zh-CN/manifest-min.json`
 
-    -   `https://abgox.github.io/ScoopType/schema/en-US-min.json`
+    -   `https://abgox.github.io/schema/Scoop/en-US/manifest-min.json`
 
 ## Demo
 
